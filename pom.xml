@@ -9,14 +9,20 @@
   <description>qingtui sdk</description>
   <url>https://www.qingtui.cn</url>
 
+  <parent>
+    <groupId>org.sonatype.oss</groupId>
+    <artifactId>oss-parent</artifactId>
+    <version>7</version>
+  </parent>
+
   <distributionManagement>
     <snapshotRepository>
       <id>oss</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
     <repository>
       <id>oss</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
     </repository>
   </distributionManagement>
 
