@@ -15,6 +15,21 @@ public class PathConstants {
     public final static String SERVICE_MESSAGE_PATH = "/message/service/send";
     public final static String SEND_MESSAGE_PATH = "/message/status/get";
 
+    public final static String SINGLE_TEXT_MSG_PATH = "/message/text/send/single";
+    public final static String MASS_TEXT_MSG_PATH = "/message/text/send/mass";
+    public final static String SERVICE_TEXT_MSG_PATH = "/message/text/send/service";
+    public final static String CHANNEL_TEXT_MSG_PATH = "/message/text/send/channel";
+
+    public final static String SINGLE_IMAGE_MSG_PATH = "/message/image/send/single";
+    public final static String MASS_IMAGE_MSG_PATH = "/message/image/send/mass";
+    public final static String SERVICE_IMAGE_MSG_PATH = "/message/image/send/service";
+    public final static String CHANNEL_IMAGE_MSG_PATH = "/message/image/send/channel";
+
+    public final static String SINGLE_RICH_MSG_PATH = "/message/rich/send/single";
+    public final static String MASS_RICH_MSG_PATH = "/message/rich/send/mass";
+    public final static String SERVICE_RICH_MSG_PATH = "/message/rich/send/service";
+    public final static String CHANNEL_RICH_MSG_PATH = "/message/rich/send/channel";
+
     public final static String CREATE_MENU_PATH = "/menu/create";
 
     public final static String UPLOAD_MEDIA_PATH = "/media/upload";
@@ -30,6 +45,11 @@ public class PathConstants {
 
     public final static String SINGLE_KEY_VALUE_MSG_PATH = "/message/keyValue/send/single";
     public final static String MASS_KEY_VALUE_MSG_PATH = "/message/keyValue/send/mass";
+
+    public final static String SINGLE_CARD_MSG_PATH = "/message/card/send/single";
+    public final static String MASS_CARD_MSG_PATH = "/message/card/send/mass";
+    public final static String SERVICE_CARD_MSG_PATH = "/message/card/send/service";
+    public final static String CHANNEL_CARD_MSG_PATH = "/message/card/send/channel";
 
     public final static String SINGLE_PROCESS_MSG_PATH = "/message/process/send/single";
     public final static String MASS_PROCESS_MSG_PATH = "/message/process/send/mass";

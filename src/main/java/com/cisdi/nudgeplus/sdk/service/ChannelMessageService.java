@@ -9,7 +9,6 @@ import com.cisdi.nudgeplus.sdk.utils.JsonUtils;
 import com.cisdi.nudgeplus.tmsbeans.beans.MessageResult;
 import com.cisdi.nudgeplus.tmsbeans.beans.ResultWapper;
 import com.cisdi.nudgeplus.tmsbeans.constants.MsgType;
-import com.cisdi.nudgeplus.tmsbeans.model.CardMessage;
 import com.cisdi.nudgeplus.tmsbeans.model.ImageMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.Msg;
 import com.cisdi.nudgeplus.tmsbeans.model.NewsMsg;
@@ -23,47 +22,47 @@ import com.cisdi.nudgeplus.tmsbeans.model.request.news.NewsMsgParam;
 import com.cisdi.nudgeplus.tmsbeans.model.request.process.ProcessMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.textcard.TextCardMsg;
 import com.google.gson.internal.LinkedTreeMap;
-import im.qingtui.cross.card_message.Card;
 import java.util.List;
 
 /**
- * 单发消息接口
+ * 发送群消息接口
  */
-public class SingleMessageService {
+public class ChannelMessageService {
 
     /**
-     * 根据用户openid使用缓存的ACCESS_TOKEN发送文本消息
+     * 根据群id使用缓存的ACCESS_TOKEN发送文本消息
      *
-     * @param toUser 用户openid
+     * @param channelId 群id
      * @param textMsg 文本消息
      * @return 返回消息id
      */
-    public static String sendTextMsg(String toUser, TextMsg textMsg) {
-        return sendTextMsg(toUser, textMsg, TokenService.ACCESS_TOKEN);
+    public static String sendTextMsg(String channelId, TextMsg textMsg) {
+        return sendTextMsg(channelId, textMsg, TokenService.ACCESS_TOKEN);
     }
 
     /**
-     * 根据用户openid使用指定的ACCESS_TOKEN发送文本消息
+     * 根据群id使用指定的ACCESS_TOKEN发送文本消息
      *
-     * @param toUser 用户openid
+     * @param channelId 群id
      * @param textMsg 文本消息
      * @return 返回消息id
      */
-    public static String sendTextMsg(String toUser, TextMsg textMsg, String token) {
+    public static String sendTextMsg(String channelId, TextMsg textMsg, String token) {
         if (textMsg == null) {
             throw new IllegalMessageException();
         }
-        SingleSendRequest<TextMsg> msg = new SingleSendRequest<>();
-        msg.setTo_user(toUser);
-        msg.setMessage(textMsg);
-        String path = PathConstants.BASE_URL + PathConstants.SINGLE_TEXT_MSG_PATH;
+        Msg msg = new Msg();
+        msg.setTouser(channelId);
+        msg.setMsgtype(MsgType.TEXT);
+        msg.setText(textMsg);
+        String path = PathConstants.BASE_URL + PathConstants.SINGLE_MESSAGE_PATH;
         ResultWapper<MessageResult> resultWapper = ClientUtils.post(
             path, token,
             JsonUtils.beanToJson(msg), MessageResult.class);
         if (resultWapper.isError()) {
             throw new IllegalRequestException(resultWapper.getErrorResult());
         }
-        return (String) resultWapper.getResult().getData();
+        return resultWapper.getResult().getMsgId();
     }
 
     /**
@@ -88,17 +87,18 @@ public class SingleMessageService {
         if (imageMsg == null) {
             throw new IllegalMessageException();
         }
-        SingleSendRequest<ImageMsg> msg = new SingleSendRequest<>();
-        msg.setTo_user(toUser);
-        msg.setMessage(imageMsg);
-        String path = PathConstants.BASE_URL + PathConstants.SINGLE_IMAGE_MSG_PATH;
+        Msg msg = new Msg();
+        msg.setTouser(toUser);
+        msg.setMsgtype(MsgType.IMAGE);
+        msg.setImage(imageMsg);
+        String path = PathConstants.BASE_URL + PathConstants.SINGLE_MESSAGE_PATH;
         ResultWapper<MessageResult> resultWapper = ClientUtils.post(
             path, token,
             JsonUtils.beanToJson(msg), MessageResult.class);
         if (resultWapper.isError()) {
             throw new IllegalRequestException(resultWapper.getErrorResult());
         }
-        return (String) resultWapper.getResult().getData();
+        return resultWapper.getResult().getMsgId();
     }
 
     /**
@@ -123,17 +123,18 @@ public class SingleMessageService {
         if (richMsg == null) {
             throw new IllegalMessageException();
         }
-        SingleSendRequest<RichMsg> msg = new SingleSendRequest<>();
-        msg.setTo_user(toUser);
-        msg.setMessage(richMsg);
-        String path = PathConstants.BASE_URL + PathConstants.SINGLE_RICH_MSG_PATH;
+        Msg msg = new Msg();
+        msg.setTouser(toUser);
+        msg.setMsgtype(MsgType.RICHMSG);
+        msg.setRichMsg(richMsg);
+        String path = PathConstants.BASE_URL + PathConstants.SINGLE_MESSAGE_PATH;
         ResultWapper<MessageResult> resultWapper = ClientUtils.post(
             path, token,
             JsonUtils.beanToJson(msg), MessageResult.class);
         if (resultWapper.isError()) {
             throw new IllegalRequestException(resultWapper.getErrorResult());
         }
-        return (String) resultWapper.getResult().getData();
+        return resultWapper.getResult().getMsgId();
     }
 
     /**
@@ -312,39 +313,5 @@ public class SingleMessageService {
             throw new IllegalRequestException(resultWapper.getErrorResult());
         }
         return (String) ((LinkedTreeMap) resultWapper.getResult().getData()).get("msg_id");
-    }
-
-    /**
-     * 发布自定义卡片消息
-     * @param toUser 用户openid
-     * @param cardMessage 卡片消息
-     * @return 消息id
-     */
-    public static String sendCardMsg(String toUser, CardMessage cardMessage, String token) {
-        if (cardMessage == null) {
-            throw new IllegalMessageException();
-        }
-        SingleSendRequest<CardMessage> msg = new SingleSendRequest<>();
-        msg.setTo_user(toUser);
-        msg.setMessage(cardMessage);
-        String path = PathConstants.BASE_URL + PathConstants.SINGLE_CARD_MSG_PATH;
-        ResultWapper<MessageResult> resultWapper = ClientUtils.post(
-            path, token,
-            JsonUtils.beanToJson(msg), MessageResult.class);
-        if (resultWapper.isError()) {
-            throw new IllegalRequestException(resultWapper.getErrorResult());
-        }
-        return resultWapper.getResult().getData().toString();
-    }
-
-    /**
-     * 根据用户openid使用指定的ACCESS_TOKEN发布自定义卡片消息
-     *
-     * @param toUser 用户openid
-     * @param cardMessage 发送的卡片消息实体
-     * @return 消息id
-     */
-    public static String sendCardMsg(String toUser, CardMessage cardMessage) {
-        return sendCardMsg(toUser, cardMessage, TokenService.ACCESS_TOKEN);
     }
 }

@@ -6,6 +6,7 @@ import com.cisdi.nudgeplus.sdk.service.TokenService;
 import com.cisdi.nudgeplus.sdk.utils.NudgePlusConfig;
 import com.cisdi.nudgeplus.tmsbeans.constants.MsgType;
 import com.cisdi.nudgeplus.tmsbeans.model.Article;
+import com.cisdi.nudgeplus.tmsbeans.model.CardMessage;
 import com.cisdi.nudgeplus.tmsbeans.model.ImageMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.NewsMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.RichMedia;
@@ -21,6 +22,8 @@ import com.cisdi.nudgeplus.tmsbeans.model.request.process.ProcessMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.textcard.ContentAttr;
 import com.cisdi.nudgeplus.tmsbeans.model.request.textcard.TextCardContent;
 import com.cisdi.nudgeplus.tmsbeans.model.request.textcard.TextCardMsg;
+import im.qingtui.cross.card_message.Card;
+import im.qingtui.cross.card_message.TestKt;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,13 +43,23 @@ public class SingleTest extends BaseTest {
     }
 
     @Test
+    public void testCardMsg(){
+        CardMessage cardMessage = new CardMessage();
+        Card card = TestKt.getTestCard();
+        cardMessage.setCard(card);
+        cardMessage.setContent(cardMessage.getContent());
+        String id = SingleMessageService.sendCardMsg(openid,cardMessage);
+        System.out.println(id);
+    }
+
+    @Test
     public void sendSingleImgMsg() {
         File file = new File(this.getClass().getClassLoader().getResource("test2.png").getFile());
         String id = MediaService.upload(file, MsgType.IMAGE);
         ImageMsg img = new ImageMsg();
         // TODO 上传图片,发送图片URL
         if (id != null) {
-            img.setMedia_id("123");
+            img.setMedia_id(id);
             String str = SingleMessageService.sendImageMsg(openid, img);
             System.out.println(str);
         }
@@ -56,14 +69,14 @@ public class SingleTest extends BaseTest {
     public void sendSingleRichMsg() {
 
         File file = new File(this.getClass().getClassLoader().getResource("test2.png").getFile());
-        String attach_id = MediaService.upload(file, MsgType.RICHMSG);
-        System.out.println(attach_id);
+//        String attach_id = MediaService.upload(file, MsgType.RICHMSG);
+//        System.out.println(attach_id);
         File file1 = new File(this.getClass().getClassLoader().getResource("test2.png").getFile());
         File file2 = new File(this.getClass().getClassLoader().getResource("test2.png").getFile());
-        String pic_id1 = MediaService.upload(file1, MsgType.IMAGE);
-        String pic_id2 = MediaService.upload(file2, MsgType.IMAGE);
-        System.out.println(pic_id1);
-        System.out.println(pic_id2);
+//        String pic_id1 = MediaService.upload(file1, MsgType.IMAGE);
+//        String pic_id2 = MediaService.upload(file2, MsgType.IMAGE);
+//        System.out.println(pic_id1);
+//        System.out.println(pic_id2);
         RichMsg richMsg = new RichMsg();
         richMsg.setTitle("这是一个测试title");
         richMsg.setBody("这是测试的消息体");
@@ -76,19 +89,19 @@ public class SingleTest extends BaseTest {
         richMsg.setUrlList(urlList);
 
         List<RichMedia> mediaList = new ArrayList<RichMedia>();
-        RichMedia richMedia1 = new RichMedia();
-        RichMedia richMedia2 = new RichMedia();
-        richMedia1.setName("这是图片1");
-        richMedia1.setMedia_id(pic_id1);
-        richMedia2.setName("这是图片2");
-        richMedia2.setMedia_id(pic_id1);
-        mediaList.add(richMedia1);
-        mediaList.add(richMedia2);
-        richMsg.setImgList(mediaList);
-        RichMedia attachment = new RichMedia();
-        attachment.setName("附件attachment");
-        attachment.setMedia_id(attach_id);
-        richMsg.setAttachment(attachment);
+//        RichMedia richMedia1 = new RichMedia();
+//        RichMedia richMedia2 = new RichMedia();
+//        richMedia1.setName("这是图片1");
+//        richMedia1.setMedia_id(pic_id1);
+//        richMedia2.setName("这是图片2");
+//        richMedia2.setMedia_id(pic_id1);
+//        mediaList.add(richMedia1);
+//        mediaList.add(richMedia2);
+//        richMsg.setImgList(mediaList);
+//        RichMedia attachment = new RichMedia();
+//        attachment.setName("附件attachment");
+//        attachment.setMedia_id(attach_id);
+//        richMsg.setAttachment(attachment);
         String str = SingleMessageService.sendRichMsg(openid, richMsg);
         System.out.println(str);
     }

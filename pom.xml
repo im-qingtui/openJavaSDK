@@ -137,6 +137,13 @@
   </profiles>
 
   <dependencies>
+
+    <dependency>
+      <groupId>im.qingtui.message</groupId>
+      <artifactId>card-message-component-jvm</artifactId>
+      <version>0.0.0.5</version>
+    </dependency>
+
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
