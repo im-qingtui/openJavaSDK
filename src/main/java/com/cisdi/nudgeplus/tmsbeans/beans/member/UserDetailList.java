@@ -1,6 +1,7 @@
 package com.cisdi.nudgeplus.tmsbeans.beans.member;
 
 import com.cisdi.nudgeplus.tmsbeans.beans.BaseResult;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -11,5 +12,15 @@ import java.util.List;
  * @author GuanZhong
  */
 public class UserDetailList extends BaseResult {
-    List<UserDetail> resultList;
+
+    @SerializedName("result_list")
+    private List<UserDetail> resultList;
+
+    public List<UserDetail> getResultList() {
+        return resultList;
+    }
+
+    public void setResultList(List<UserDetail> resultList) {
+        this.resultList = resultList;
+    }
 }

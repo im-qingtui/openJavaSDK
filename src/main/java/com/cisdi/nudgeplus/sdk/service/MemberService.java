@@ -146,7 +146,7 @@ public class MemberService {
         if (request == null) {
             throw new IllegalRequestException();
         }
-        String path = PathConstants.TEAM_URL + PathConstants.GET_USER_DETAIL_INFO_PATH;
+        String path = PathConstants.TEAM_URL + PathConstants.BATCH_GET_USER_DETAIL_INFO_PATH;
         ResultWapper<UserDetailList> resultWapper = ClientUtils.post(path, token, JsonUtils.beanToJson(request), UserDetailList.class);
         if (resultWapper.isError()) {
             throw new IllegalRequestException(resultWapper.getErrorResult());

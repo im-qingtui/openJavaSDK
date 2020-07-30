@@ -36,7 +36,7 @@ public class MemberServiceTest extends BaseTest {
     @Test
     public void testGetUserDetailInfo() {
         RequestUser request = new RequestUser();
-        request.setAccountId("be6abf220ada4fa7b54f54fe78ed0a21");
+        request.setAccountId("530c72f1f6384b91a8c0c5a362c1b73d");
         request.setDomainId("f94e0cbd49a74b3fb1c7693a92383be9");
         System.out.println(MemberService.getUserDetailInfo(request));
     }
@@ -45,8 +45,8 @@ public class MemberServiceTest extends BaseTest {
     public void testBatchGetUserDetailInfo() {
         RequestUserBatch request = new RequestUserBatch();
         List<String> accountIds = new ArrayList<>();
-        accountIds.add("be6abf220ada4fa7b54f54fe78ed0a21");
-        accountIds.add("18e1ea60bdad4afc97fd4a437eb9b8b8");
+        accountIds.add("530c72f1f6384b91a8c0c5a362c1b73d");
+        accountIds.add("38dab1546a08496f90631a522302a505");
         request.setAccountIdList(accountIds);
         request.setDomainId("f94e0cbd49a74b3fb1c7693a92383be9");
         System.out.println(MemberService.batchGetUserDetailInfo(request));
