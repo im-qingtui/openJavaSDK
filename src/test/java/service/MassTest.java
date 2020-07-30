@@ -21,9 +21,11 @@ import com.cisdi.nudgeplus.tmsbeans.model.request.textcard.ContentAttr;
 import com.cisdi.nudgeplus.tmsbeans.model.request.textcard.TextCardContent;
 import com.cisdi.nudgeplus.tmsbeans.model.request.textcard.TextCardMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.response.ProcessMsgMassResponse;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Test;
 
 public class MassTest extends BaseTest {
@@ -32,7 +34,7 @@ public class MassTest extends BaseTest {
     public void sendTextMsg() {
         TextMsg tm = new TextMsg();
         tm.setContent(
-            "哈哈哈哈哈哈哈，这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试");
+                "哈哈哈哈哈哈哈，这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试");
         List<String> userList = new ArrayList<String>();
         for (int i = 0; i < 30; i++) {
             userList.add(NudgePlusConfig.getValue("openid"));

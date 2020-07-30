@@ -1,17 +1,11 @@
 package service;
 
 import com.cisdi.nudgeplus.sdk.service.MemberService;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.Account;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestBatchCreateUsers;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestCreateUser;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestDeleteUsers;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestPagedOrgUserInfo;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestPagedSyncMember;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestPagedUserInfo;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestUpdateUser;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestUser;
+import com.cisdi.nudgeplus.tmsbeans.model.request.member.*;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.junit.Test;
 
 /**
@@ -43,8 +37,19 @@ public class MemberServiceTest extends BaseTest {
     public void testGetUserDetailInfo() {
         RequestUser request = new RequestUser();
         request.setAccountId("be6abf220ada4fa7b54f54fe78ed0a21");
-        request.setDomainId("b9b3539c60064d5b9c6e39ac985d4369");
+        request.setDomainId("f94e0cbd49a74b3fb1c7693a92383be9");
         System.out.println(MemberService.getUserDetailInfo(request));
+    }
+
+    @Test
+    public void testBatchGetUserDetailInfo() {
+        RequestUserBatch request = new RequestUserBatch();
+        List<String> accountIds = new ArrayList<>();
+        accountIds.add("be6abf220ada4fa7b54f54fe78ed0a21");
+        accountIds.add("18e1ea60bdad4afc97fd4a437eb9b8b8");
+        request.setAccountIdList(accountIds);
+        request.setDomainId("f94e0cbd49a74b3fb1c7693a92383be9");
+        System.out.println(MemberService.batchGetUserDetailInfo(request));
     }
 
     @Test

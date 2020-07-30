@@ -87,4 +87,7 @@ public class PathConstants {
     public final static String MEDIA_DOWNLOAD_PATH = "/media/download/path";
 
     public final static String GET_TICKTET_PATH = "/js/ticket/get";
+
+    public final static String GET_CHANNEL_LIST_PATH = "/channel/list";
+    public final static String GET_CHANNEL_MEMBER_LIST_PATH = "/channel/member/list/json";
 }

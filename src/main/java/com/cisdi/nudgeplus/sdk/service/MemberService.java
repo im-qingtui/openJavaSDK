@@ -6,20 +6,10 @@ import com.cisdi.nudgeplus.sdk.datamng.ClientUtils;
 import com.cisdi.nudgeplus.sdk.exception.IllegalRequestException;
 import com.cisdi.nudgeplus.sdk.utils.JsonUtils;
 import com.cisdi.nudgeplus.tmsbeans.beans.BaseResult;
-import com.cisdi.nudgeplus.tmsbeans.beans.member.AccountResult;
-import com.cisdi.nudgeplus.tmsbeans.beans.member.OpenIdResult;
-import com.cisdi.nudgeplus.tmsbeans.beans.member.PagedSyncUserDetailResult;
-import com.cisdi.nudgeplus.tmsbeans.beans.member.PagedUserInfoResult;
+import com.cisdi.nudgeplus.tmsbeans.beans.member.*;
 import com.cisdi.nudgeplus.tmsbeans.beans.ResultWapper;
-import com.cisdi.nudgeplus.tmsbeans.beans.member.UserDetail;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestBatchCreateUsers;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestCreateUser;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestDeleteUsers;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestPagedOrgUserInfo;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestPagedSyncMember;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestPagedUserInfo;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestUpdateUser;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestUser;
+import com.cisdi.nudgeplus.tmsbeans.model.request.member.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -137,6 +127,34 @@ public class MemberService {
     }
 
     /**
+     * 根据domainId和accountIdList使用缓存的ACCESS_TOKEN批量查找用户信息
+     *
+     * @param request
+     * @return
+     */
+    public static UserDetailList batchGetUserDetailInfo(RequestUserBatch request) {
+        return batchGetUserDetailInfo(request, TokenService.ACCESS_TOKEN);
+    }
+
+    /**
+     * 根据domainId和accountId使用指定的ACCESS_TOKEN批量查找用户信息
+     *
+     * @param request 用户详情请求
+     * @return 返回请求下的用户信息
+     */
+    public static UserDetailList batchGetUserDetailInfo(RequestUserBatch request, String token) {
+        if (request == null) {
+            throw new IllegalRequestException();
+        }
+        String path = PathConstants.TEAM_URL + PathConstants.GET_USER_DETAIL_INFO_PATH;
+        ResultWapper<UserDetailList> resultWapper = ClientUtils.post(path, token, JsonUtils.beanToJson(request), UserDetailList.class);
+        if (resultWapper.isError()) {
+            throw new IllegalRequestException(resultWapper.getErrorResult());
+        }
+        return resultWapper.getResult();
+    }
+
+    /**
      * 根据dopenId使用缓存的ACCESS_TOKEN分页查找用户信息
      *
      * @param openId 用户openId
@@ -192,7 +210,7 @@ public class MemberService {
 
         String path = PathConstants.TEAM_URL + PathConstants.DELETE_SINGLE_MEMBER_PATH;
         ResultWapper<BaseResult> resultWapper = ClientUtils
-            .post(path, token, JsonUtils.beanToJson(request), BaseResult.class);
+                .post(path, token, JsonUtils.beanToJson(request), BaseResult.class);
         if (resultWapper.isError()) {
             throw new IllegalRequestException(resultWapper.getErrorResult());
         }
@@ -225,7 +243,7 @@ public class MemberService {
         }
         String path = PathConstants.TEAM_URL + PathConstants.DELETE_BATCH_MEMBER_PATH;
         ResultWapper<BaseResult> resultWapper = ClientUtils
-            .post(path, token, JsonUtils.beanToJson(request), BaseResult.class);
+                .post(path, token, JsonUtils.beanToJson(request), BaseResult.class);
         if (resultWapper.isError()) {
             throw new IllegalRequestException(resultWapper.getErrorResult());
         }
@@ -258,7 +276,7 @@ public class MemberService {
         }
         String path = PathConstants.TEAM_URL + PathConstants.UPDATE_USER_SINGLE_PATH;
         ResultWapper<BaseResult> resultWapper = ClientUtils
-            .post(path, token, JsonUtils.beanToJson(request), BaseResult.class);
+                .post(path, token, JsonUtils.beanToJson(request), BaseResult.class);
         if (resultWapper.isError()) {
             throw new IllegalRequestException(resultWapper.getErrorResult());
         }
@@ -389,7 +407,7 @@ public class MemberService {
         }
         String path = PathConstants.TEAM_URL + PathConstants.BATCH_CREATE_USERS_PATH;
         ResultWapper<BaseResult> resultWapper = ClientUtils
-            .post(path, token, JsonUtils.beanToJson(request), BaseResult.class);
+                .post(path, token, JsonUtils.beanToJson(request), BaseResult.class);
         if (resultWapper.isError()) {
             throw new IllegalRequestException(resultWapper.getErrorResult());
         }
@@ -422,7 +440,7 @@ public class MemberService {
         }
         String path = PathConstants.TEAM_URL + PathConstants.CREATE_USER_PATH;
         ResultWapper<BaseResult> resultWapper = ClientUtils
-            .post(path, token, JsonUtils.beanToJson(request), BaseResult.class);
+                .post(path, token, JsonUtils.beanToJson(request), BaseResult.class);
         if (resultWapper.isError()) {
             throw new IllegalRequestException(resultWapper.getErrorResult());
         }
