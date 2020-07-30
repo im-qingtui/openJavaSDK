@@ -47,7 +47,7 @@ public class MemberServiceTest extends BaseTest {
         List<String> accountIds = new ArrayList<>();
         accountIds.add("530c72f1f6384b91a8c0c5a362c1b73d");
         accountIds.add("38dab1546a08496f90631a522302a505");
-        request.setAccountIdList(accountIds);
+        request.setAccountIds(accountIds);
         request.setDomainId("f94e0cbd49a74b3fb1c7693a92383be9");
         System.out.println(MemberService.batchGetUserDetailInfo(request));
     }

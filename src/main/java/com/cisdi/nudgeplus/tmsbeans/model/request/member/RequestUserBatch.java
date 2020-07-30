@@ -11,17 +11,16 @@ import java.util.List;
  */
 public class RequestUserBatch implements Serializable {
 
-
-    private List<String> accountIdList;
+    private List<String> accountIds;
 
     private String domainId;
 
-    public List<String> getAccountIdList() {
-        return accountIdList;
+    public List<String> getAccountIds() {
+        return accountIds;
     }
 
-    public void setAccountIdList(List<String> accountIdList) {
-        this.accountIdList = accountIdList;
+    public void setAccountIds(List<String> accountIds) {
+        this.accountIds = accountIds;
     }
 
     public String getDomainId() {
