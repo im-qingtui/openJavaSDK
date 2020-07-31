@@ -73,7 +73,7 @@ public class SingleTest extends BaseTest {
 //        System.out.println(attach_id);
         File file1 = new File(this.getClass().getClassLoader().getResource("test2.png").getFile());
         File file2 = new File(this.getClass().getClassLoader().getResource("test2.png").getFile());
-//        String pic_id1 = MediaService.upload(file1, MsgType.IMAGE);
+        String pic_id1 = MediaService.upload(file1, MsgType.IMAGE);
 //        String pic_id2 = MediaService.upload(file2, MsgType.IMAGE);
 //        System.out.println(pic_id1);
 //        System.out.println(pic_id2);
@@ -86,18 +86,18 @@ public class SingleTest extends BaseTest {
         richUrl.setUrl("http://jfoieoajoifea");
         urlList.add(richUrl);
         urlList.add(richUrl);
-        richMsg.setUrlList(urlList);
+        richMsg.setUrl_list(urlList);
 
         List<RichMedia> mediaList = new ArrayList<RichMedia>();
-//        RichMedia richMedia1 = new RichMedia();
+        RichMedia richMedia1 = new RichMedia();
 //        RichMedia richMedia2 = new RichMedia();
-//        richMedia1.setName("这是图片1");
-//        richMedia1.setMedia_id(pic_id1);
+        richMedia1.setName("这是图片1");
+        richMedia1.setMedia_id(pic_id1);
 //        richMedia2.setName("这是图片2");
 //        richMedia2.setMedia_id(pic_id1);
-//        mediaList.add(richMedia1);
+        mediaList.add(richMedia1);
 //        mediaList.add(richMedia2);
-//        richMsg.setImgList(mediaList);
+        richMsg.setImg_list(mediaList);
 //        RichMedia attachment = new RichMedia();
 //        attachment.setName("附件attachment");
 //        attachment.setMedia_id(attach_id);

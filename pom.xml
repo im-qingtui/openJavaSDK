@@ -3,7 +3,7 @@
   xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>im.qingtui.sdk</groupId>
-  <version>1.0.1</version>
+  <version>1.0.2</version>
   <artifactId>im-qingtui-op-sdk</artifactId>
   <name>im-qingtui-op-sdk</name>
   <description>qingtui sdk</description>
@@ -140,8 +140,8 @@
 
     <dependency>
       <groupId>im.qingtui.message</groupId>
-      <artifactId>card-message-component-jvm</artifactId>
-      <version>0.0.0.5</version>
+      <artifactId>card-message-core</artifactId>
+      <version>0.0.0.10</version>
     </dependency>
 
     <dependency>

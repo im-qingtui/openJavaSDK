@@ -56,7 +56,7 @@ public class ServiceTest extends BaseTest {
         richUrl.setUrl("http://jfoieoajoifea222");
         urlList.add(richUrl);
         urlList.add(richUrl);
-        richMsg.setUrlList(urlList);
+        richMsg.setUrl_list(urlList);
 
         List<RichMedia> mediaList = new ArrayList<RichMedia>();
         RichMedia richMedia = new RichMedia();
@@ -65,7 +65,7 @@ public class ServiceTest extends BaseTest {
         mediaList.add(richMedia);
         mediaList.add(richMedia);
         mediaList.add(richMedia);
-        richMsg.setImgList(mediaList);
+        richMsg.setImg_list(mediaList);
         RichMedia attachment = new RichMedia();
         attachment.setName("啦啦啦啦德玛西亚");
         attachment.setMedia_id(attach_id);
