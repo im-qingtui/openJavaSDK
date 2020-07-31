@@ -1,6 +1,7 @@
 package service;
 
 import com.cisdi.nudgeplus.sdk.service.ChannelService;
+import com.cisdi.nudgeplus.tmsbeans.beans.channel.ChannelMemberResult;
 import com.cisdi.nudgeplus.tmsbeans.beans.channel.ChannelResult;
 import org.junit.Test;
 
@@ -20,7 +21,7 @@ public class ChannelServiceTest {
 
     @Test
     public void testGetChannelMemberList() {
-        ChannelResult channelMemberList = ChannelService.getChannelMemberList("39ee5261e9594eafa5efb9532a32e795");
+        ChannelMemberResult channelMemberList = ChannelService.getChannelMemberList("1ee883f9263f47b284d61754e2fdb6b5");
         System.out.println(channelMemberList);
     }
 

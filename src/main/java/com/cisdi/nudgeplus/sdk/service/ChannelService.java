@@ -4,6 +4,7 @@ import com.cisdi.nudgeplus.sdk.constants.PathConstants;
 import com.cisdi.nudgeplus.sdk.datamng.ClientUtils;
 import com.cisdi.nudgeplus.sdk.exception.IllegalRequestException;
 import com.cisdi.nudgeplus.tmsbeans.beans.ResultWapper;
+import com.cisdi.nudgeplus.tmsbeans.beans.channel.ChannelMemberResult;
 import com.cisdi.nudgeplus.tmsbeans.beans.channel.ChannelResult;
 import com.cisdi.nudgeplus.tmsbeans.beans.member.PagedUserInfoResult;
 import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestPagedOrgUserInfo;
@@ -52,7 +53,7 @@ public class ChannelService {
      * @param channelId
      * @return
      */
-    public static ChannelResult getChannelMemberList(String channelId) {
+    public static ChannelMemberResult getChannelMemberList(String channelId) {
         return getChannelMemberList(channelId, TokenService.ACCESS_TOKEN);
     }
 
@@ -63,7 +64,7 @@ public class ChannelService {
      * @param token
      * @return
      */
-    public static ChannelResult getChannelMemberList(String channelId, String token) {
+    public static ChannelMemberResult getChannelMemberList(String channelId, String token) {
         if (channelId == null) {
             throw new IllegalRequestException();
         }
@@ -71,7 +72,7 @@ public class ChannelService {
         map.put("accessToken", token);
         map.put("channelId", channelId);
         String path = PathConstants.TEAM_URL + PathConstants.GET_CHANNEL_MEMBER_LIST_PATH;
-        ResultWapper<ChannelResult> resultWapper = ClientUtils.get(path, map, ChannelResult.class);
+        ResultWapper<ChannelMemberResult> resultWapper = ClientUtils.get(path, map, ChannelMemberResult.class);
         if (resultWapper.isError()) {
             throw new IllegalRequestException(resultWapper.getErrorResult());
         }

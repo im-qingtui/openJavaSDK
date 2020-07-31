@@ -6,21 +6,21 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
- * Description
- * Date:2020/7/29
+ * 群成员Id
+ * Date:2020/7/31
  *
  * @author GuanZhong
  */
-public class ChannelResult extends BaseResult {
 
+public class ChannelMemberResult extends BaseResult {
     @SerializedName("result_list")
-    private List<ChannelBaseInfo> resultList;
+    private List<String> resultList;
 
-    public List<ChannelBaseInfo> getResultList() {
+    public List<String> getResultList() {
         return resultList;
     }
 
-    public void setResultList(List<ChannelBaseInfo> resultList) {
+    public void setResultList(List<String> resultList) {
         this.resultList = resultList;
     }
 }
