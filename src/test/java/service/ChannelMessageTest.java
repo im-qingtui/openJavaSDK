@@ -1,8 +1,8 @@
 package service;
 
+import com.cisdi.nudgeplus.sdk.service.ChannelMessageService;
 import com.cisdi.nudgeplus.sdk.service.MediaService;
 import com.cisdi.nudgeplus.sdk.service.SingleMessageService;
-import com.cisdi.nudgeplus.sdk.service.TokenService;
 import com.cisdi.nudgeplus.sdk.utils.NudgePlusConfig;
 import com.cisdi.nudgeplus.tmsbeans.constants.MsgType;
 import com.cisdi.nudgeplus.tmsbeans.model.Article;
@@ -15,8 +15,8 @@ import com.cisdi.nudgeplus.tmsbeans.model.RichUrl;
 import com.cisdi.nudgeplus.tmsbeans.model.TextMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.basics.MsgColor;
 import com.cisdi.nudgeplus.tmsbeans.model.request.keyvalue.ColorText;
-import com.cisdi.nudgeplus.tmsbeans.model.request.keyvalue.KeyValueMsgContent;
 import com.cisdi.nudgeplus.tmsbeans.model.request.keyvalue.KeyValueMsg;
+import com.cisdi.nudgeplus.tmsbeans.model.request.keyvalue.KeyValueMsgContent;
 import com.cisdi.nudgeplus.tmsbeans.model.request.media.MediaMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.process.ProcessMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.textcard.ContentAttr;
@@ -29,16 +29,18 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 
-public class SingleTest extends BaseTest {
+public class ChannelMessageTest extends BaseTest {
 
     private String openid = NudgePlusConfig.getValue("openid");
+
+    private String channelId = "39ee5261e9594eafa5efb9532a32e795";
 
     @Test
     public void sendSingleTextMsg1() {
         TextMsg tm = new TextMsg();
         tm.setContent("哈哈，测试一下a");
         //String temp = SingleMessageService.sendTextMsg("6cfd6c5f2c0511e6946b6c92bf21d955", tm);
-        String temp = SingleMessageService.sendTextMsg(openid, tm);
+        String temp = ChannelMessageService.sendTextMsg(channelId, tm);
         System.out.println(temp);
     }
 
@@ -102,7 +104,7 @@ public class SingleTest extends BaseTest {
 //        attachment.setName("附件attachment");
 //        attachment.setMedia_id(attach_id);
 //        richMsg.setAttachment(attachment);
-        String str = SingleMessageService.sendRichMsg(openid, richMsg);
+        String str = ChannelMessageService.sendRichMsg(channelId, richMsg);
         System.out.println(str);
     }
 

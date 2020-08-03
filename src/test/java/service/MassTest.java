@@ -81,7 +81,7 @@ public class MassTest extends BaseTest {
         richUrl.setUrl("http://jfoieoajoifea");
         urlList.add(richUrl);
         urlList.add(richUrl);
-        richMsg.setUrl_list(urlList);
+        richMsg.setUrlList(urlList);
 
         List<RichMedia> mediaList = new ArrayList<RichMedia>();
         RichMedia richMedia1 = new RichMedia();
@@ -92,7 +92,7 @@ public class MassTest extends BaseTest {
         richMedia2.setMedia_id(pic_id1);
         mediaList.add(richMedia1);
         mediaList.add(richMedia2);
-        richMsg.setImg_list(mediaList);
+        richMsg.setImgList(mediaList);
         RichMedia attachment = new RichMedia();
         attachment.setName("demacia");
         attachment.setMedia_id(attach_id);

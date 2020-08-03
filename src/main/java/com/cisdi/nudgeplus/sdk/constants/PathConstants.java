@@ -39,12 +39,15 @@ public class PathConstants {
     public final static String SINGLE_FILE_MSG_PATH = "/message/file/send/single";
     public final static String MASS_FILE_MSG_PATH = "/message/file/send/mass";
     public final static String SERVICE_FILE_MSG_PATH = "/message/file/send/service";
+    public final static String CHANNEL_FILE_MSG_PATH = "/message/file/send/channel";
 
     public final static String SINGLE_TEXT_CARD_MSG_PATH = "/message/textCard/send/single";
     public final static String MASS_TEXT_CARD_MSG_PATH = "/message/textCard/send/mass";
+    public final static String CHANNEL_TEXT_CARD_MSG_PATH = "/message/textCard/send/channel";
 
     public final static String SINGLE_KEY_VALUE_MSG_PATH = "/message/keyValue/send/single";
     public final static String MASS_KEY_VALUE_MSG_PATH = "/message/keyValue/send/mass";
+    public final static String CHANNEL_KEY_VALUE_MSG_PATH = "/message/keyValue/send/channel";
 
     public final static String SINGLE_CARD_MSG_PATH = "/message/card/send/single";
     public final static String MASS_CARD_MSG_PATH = "/message/card/send/mass";
@@ -58,6 +61,7 @@ public class PathConstants {
     public final static String SINGLE_NEWS_MSG_PATH = "/message/news/send/single";
     public final static String MASS_NEWS_MSG_PATH = "/message/news/send/mass";
     public final static String SERVICE_NEWS_MSG_PATH = "/message/news/send/service";
+    public final static String CHANNEL_NEWS_MSG_PATH = "/message/news/send/channel";
 
     public final static String GET_DOMAIN_ID_PATH = "/domain/id/get";
 

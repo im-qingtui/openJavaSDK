@@ -13,9 +13,9 @@ public class RichMsg extends BaseBean implements Serializable, Message {
 
     private String body;
 
-    private List<RichMedia> img_list;
+    private List<RichMedia> imgList;
 
-    private List<RichUrl> url_list;
+    private List<RichUrl> urlList;
 
     private RichMedia attachment;
 
@@ -35,20 +35,20 @@ public class RichMsg extends BaseBean implements Serializable, Message {
         this.body = body;
     }
 
-    public List<RichMedia> getImg_list() {
-        return img_list;
+    public List<RichMedia> getImgList() {
+        return imgList;
     }
 
-    public void setImg_list(List<RichMedia> img_list) {
-        this.img_list = img_list;
+    public void setImgList(List<RichMedia> imgList) {
+        this.imgList = imgList;
     }
 
-    public List<RichUrl> getUrl_list() {
-        return url_list;
+    public List<RichUrl> getUrlList() {
+        return urlList;
     }
 
-    public void setUrl_list(List<RichUrl> url_list) {
-        this.url_list = url_list;
+    public void setUrlList(List<RichUrl> urlList) {
+        this.urlList = urlList;
     }
 
     public RichMedia getAttachment() {
