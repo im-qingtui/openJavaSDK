@@ -1,6 +1,7 @@
 package com.cisdi.nudgeplus.tmsbeans.beans.channel;
 
 import com.cisdi.nudgeplus.tmsbeans.beans.BaseResult;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * 群基础信息
@@ -13,6 +14,7 @@ public class ChannelBaseInfo extends BaseResult {
     private String name;
 
     //组织机构id，非部门群时可为空
+    @SerializedName("org_id")
     private String orgId;
     // 群头像
     private String avatar;
@@ -20,19 +22,25 @@ public class ChannelBaseInfo extends BaseResult {
     // 群的类型
     private String type;
 
+    @SerializedName("domain_id")
     private String domainId;
     private String comment;
 
     // 群是否归档
     private String archive;
     private String pinyin;
+    @SerializedName("pinyin_search")
     private String pinyinSearch;
 
+    @SerializedName("create_datetime")
     private String createDatetime;
+    @SerializedName("modify_datetime")
     private String modifyDatetime;
     // 群的创建者账号id
+    @SerializedName("creator_account_id")
     private String creatorAccountId;
     //群主aid
+    @SerializedName("host_account_id")
     private String hostAccountId;
 
     // 群的类别 （0:企业私有群，1：企业公开群 2:普通群， 3:全员群，4部门群）

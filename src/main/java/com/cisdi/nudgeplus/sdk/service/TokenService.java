@@ -14,7 +14,7 @@ public class TokenService {
     /**
      * 缓存的ACCESS_TOKEN
      */
-    public static String ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJkb21haW5faWQiOiJmOTRlMGNiZDQ5YTc0YjNmYjFjNzY5M2E5MjM4M2JlOSIsImRpc3BhdGNoIjoxNTk2MTc4NzA2MzcxLCJhcHBpZCI6IjQ4NTY2ODQwNjEiLCJleHBpcmVzX2luIjoxNTk2MTg1OTA2MzcxfQ.vCQVSRTbtHjwNDnoqObOvZ9UgmNgULZA6Nr33Tb_J-s";
+    public static String ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJkb21haW5faWQiOiJmOTRlMGNiZDQ5YTc0YjNmYjFjNzY5M2E5MjM4M2JlOSIsImRpc3BhdGNoIjoxNTk2NDE3ODkzOTA0LCJhcHBpZCI6IjQ4NTY2ODQwNjEiLCJleHBpcmVzX2luIjoxNTk2NDI1MDkzOTA0fQ.-yFxEwbXczJMRnm7eVxN640O_fjNm_1F6HpD8zgxGpc";
 
     /**
      * 根据appid和secret刷新缓存的ACCESS_TOKEN,当调用不提供ACCESS_TOKEN的方法时默认使用此方法刷新的ACCESS_TOKEN. 开发者可以定时(2小时以内的周期)调用此方法,以确保ACCESS_TOKEN的长期有效
