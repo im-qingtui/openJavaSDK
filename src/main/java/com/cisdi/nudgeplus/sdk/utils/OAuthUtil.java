@@ -6,10 +6,11 @@ import java.nio.charset.StandardCharsets;
 
 public final class OAuthUtil {
 
-    public static String getOauthPath(String appId, String path) throws UnsupportedEncodingException {
+    public static String getOauthPath(String path) throws UnsupportedEncodingException {
         String encodedPath = URLEncoder.encode(path, StandardCharsets.UTF_8.name());
-        return NudgePlusConfig.getProperty("baseURL")
-            + "/oauth2/authorize?appid=" + appId
+
+        return NudgePlusConfig.getEndpoint()
+            + "/v1/oauth2/authorize?appid=" + NudgePlusConfig.getAppId()
             + "&redirect_uri=" + encodedPath;
     }
 
