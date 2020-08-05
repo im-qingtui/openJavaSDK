@@ -2,66 +2,26 @@ package com.cisdi.nudgeplus.tmsbeans.model.request.keyvalue;
 
 import com.cisdi.nudgeplus.tmsbeans.model.request.basics.Message;
 import java.util.List;
+import lombok.Data;
 
 /**
  * 键值对消息参数实体类
  *
  * @author shizhen
  */
+@Data
 public class KeyValueMsg implements Message {
 
-    private String title;//标题
-    private ColorText sub_title;//开头语
-    private String url;//点击后跳转的url
-    private List<KeyValueMsgContent> content;//内容
-    private ColorText footer;//末尾语
-    private String button_text;//按钮文本
+    private String title;
 
-    public String getTitle() {
-        return title;
-    }
+    private ColorText subTitle;
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
+    private String url;
 
-    public String getUrl() {
-        return url;
-    }
+    private List<KeyValueMsgContent> content;
 
-    public void setUrl(String url) {
-        this.url = url;
-    }
+    private ColorText footer;
 
-    public List<KeyValueMsgContent> getContent() {
-        return content;
-    }
+    private String buttonText;
 
-    public void setContent(List<KeyValueMsgContent> content) {
-        this.content = content;
-    }
-
-    public ColorText getFooter() {
-        return footer;
-    }
-
-    public void setFooter(ColorText footer) {
-        this.footer = footer;
-    }
-
-    public ColorText getSub_title() {
-        return sub_title;
-    }
-
-    public void setSub_title(ColorText sub_title) {
-        this.sub_title = sub_title;
-    }
-
-    public String getButton_text() {
-        return button_text;
-    }
-
-    public void setButton_text(String button_text) {
-        this.button_text = button_text;
-    }
 }

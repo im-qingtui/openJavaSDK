@@ -1,30 +1,19 @@
 package com.cisdi.nudgeplus.tmsbeans.model.request.org;
 
-import java.io.Serializable;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /**
  * 分页获取组织机构请求参数实体类
  *
  * @author shizhen
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class RequestPagedOrg extends RequestOrg {
 
-    private int pageSize;//每页大小
-    private int requestPage;//请求页数
+    private int pageSize;
 
-    public int getPageSize() {
-        return pageSize;
-    }
+    private int requestPage;
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public int getRequestPage() {
-        return requestPage;
-    }
-
-    public void setRequestPage(int requestPage) {
-        this.requestPage = requestPage;
-    }
 }

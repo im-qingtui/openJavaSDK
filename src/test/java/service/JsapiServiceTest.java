@@ -1,6 +1,6 @@
 package service;
 
-import com.cisdi.nudgeplus.sdk.service.JsapiService;
+import com.cisdi.nudgeplus.sdk.service.JsApiService;
 import org.junit.Test;
 
 /**
@@ -8,10 +8,10 @@ import org.junit.Test;
  *
  * @author shizhen
  */
-public class JsapiServiceTest extends BaseTest {
+public class JsapiServiceTest {
 
     @Test
-    public void testGetTicket(){
-        System.out.println(JsapiService.getTicket());
+    public void testGetTicket() {
+        System.out.println(JsApiService.getTicket());
     }
 }

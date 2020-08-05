@@ -2,30 +2,20 @@ package com.cisdi.nudgeplus.tmsbeans.model.request.member;
 
 import java.io.Serializable;
 import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 批量创建用户请求参数实体类
  *
  * @author shizhen
  */
+@Data
+@NoArgsConstructor
 public class RequestBatchCreateUsers implements Serializable {
 
-    private String domainId;//团队id
-    private List<RequestCreateUser> users;//用户list
+    private String domainId;
 
-    public String getDomainId() {
-        return domainId;
-    }
+    private List<RequestCreateUser> users;
 
-    public void setDomainId(String domainId) {
-        this.domainId = domainId;
-    }
-
-    public List<RequestCreateUser> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<RequestCreateUser> users) {
-        this.users = users;
-    }
 }

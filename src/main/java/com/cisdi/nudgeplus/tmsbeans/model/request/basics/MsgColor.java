@@ -21,7 +21,8 @@ public enum MsgColor implements Serializable {
      * 灰色
      */
     GRAY("gray");
-    String value;
+
+    private String value;
 
     MsgColor(String value) {
         this.value = value;

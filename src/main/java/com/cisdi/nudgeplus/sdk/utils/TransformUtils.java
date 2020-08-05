@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author shizhen
  */
-public class ClassUtils {
+public final class TransformUtils {
 
     public static List<NewsMsgArticle> convertNewsMsg(List<Article> articleList) {
         List<NewsMsgArticle> newsMsgArticleList = new ArrayList<>();
@@ -19,14 +19,17 @@ public class ClassUtils {
                 NewsMsgArticle newsMsgArticle = new NewsMsgArticle();
                 newsMsgArticle.setAuthor(article.getAuthor());
                 newsMsgArticle.setContent(article.getContent());
-                newsMsgArticle.setShowCoverPic(article.getShow_cover_pic());
+                newsMsgArticle.setShowCoverPic(article.getShowCoverPic());
                 newsMsgArticle.setTime(article.getXtime());
                 newsMsgArticle.setTitle(article.getTitle());
                 newsMsgArticle.setUrl(article.getUrl());
-                newsMsgArticle.setThumbMediaId(article.getThumb_media_id());
+                newsMsgArticle.setThumbMediaId(article.getThumbMediaId());
                 newsMsgArticleList.add(newsMsgArticle);
             }
         }
         return newsMsgArticleList;
+    }
+
+    private TransformUtils() {
     }
 }

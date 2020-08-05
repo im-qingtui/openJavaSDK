@@ -13,31 +13,29 @@ import com.cisdi.nudgeplus.tmsbeans.model.RichUrl;
 import com.cisdi.nudgeplus.tmsbeans.model.TextMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.basics.MsgColor;
 import com.cisdi.nudgeplus.tmsbeans.model.request.keyvalue.ColorText;
-import com.cisdi.nudgeplus.tmsbeans.model.request.keyvalue.KeyValueMsgContent;
 import com.cisdi.nudgeplus.tmsbeans.model.request.keyvalue.KeyValueMsg;
+import com.cisdi.nudgeplus.tmsbeans.model.request.keyvalue.KeyValueMsgContent;
 import com.cisdi.nudgeplus.tmsbeans.model.request.media.MediaMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.process.ProcessMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.textcard.ContentAttr;
 import com.cisdi.nudgeplus.tmsbeans.model.request.textcard.TextCardContent;
 import com.cisdi.nudgeplus.tmsbeans.model.request.textcard.TextCardMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.response.ProcessMsgMassResponse;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Test;
 
-public class MassTest extends BaseTest {
+public class MassTest {
 
     @Test
     public void sendTextMsg() {
         TextMsg tm = new TextMsg();
         tm.setContent(
-                "哈哈哈哈哈哈哈，这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试");
+            "哈哈哈哈哈哈哈，这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试这是群发消息测试");
         List<String> userList = new ArrayList<String>();
         for (int i = 0; i < 30; i++) {
-            userList.add(NudgePlusConfig.getValue("openid"));
+            userList.add(NudgePlusConfig.getProperty("openid"));
         }
         String msg_id = MassMessageService.sendTextMsg(userList, tm);
         System.out.println(msg_id);
@@ -51,10 +49,10 @@ public class MassTest extends BaseTest {
         ImageMsg img = new ImageMsg();
         // TODO 上传图片,发送图片URL
         if (id != null) {
-            img.setMedia_id(id);
+            img.setMediaId(id);
             List<String> userList = new ArrayList<String>();
             for (int i = 0; i < 10; i++) {
-                userList.add(NudgePlusConfig.getValue("openid"));
+                userList.add(NudgePlusConfig.getProperty("openid"));
             }
             String msg_id = MassMessageService.sendImageMsg(userList, img);
             System.out.println(msg_id);
@@ -64,7 +62,7 @@ public class MassTest extends BaseTest {
     @Test
     public void sendRichMsg() {
         File file = new File("G:\\ABCDEFG.docx");
-        String attach_id = MediaService.upload(file, MsgType.RICHMSG);
+        String attach_id = MediaService.upload(file, MsgType.RICH_MSG);
         System.out.println(attach_id);
         File file1 = new File("G:\\mao.jpg");
         File file2 = new File("G:\\maomi.jpg");
@@ -87,15 +85,15 @@ public class MassTest extends BaseTest {
         RichMedia richMedia1 = new RichMedia();
         RichMedia richMedia2 = new RichMedia();
         richMedia1.setName("这是图片1");
-        richMedia1.setMedia_id(pic_id1);
+        richMedia1.setMediaId(pic_id1);
         richMedia2.setName("这是图片2");
-        richMedia2.setMedia_id(pic_id1);
+        richMedia2.setMediaId(pic_id1);
         mediaList.add(richMedia1);
         mediaList.add(richMedia2);
         richMsg.setImgList(mediaList);
         RichMedia attachment = new RichMedia();
         attachment.setName("demacia");
-        attachment.setMedia_id(attach_id);
+        attachment.setMediaId(attach_id);
         richMsg.setAttachment(attachment);
         List<String> userList = new ArrayList<String>();
         userList.add("0497632ccae14cf182cb7262b997a882");
@@ -107,7 +105,7 @@ public class MassTest extends BaseTest {
     @Test
     public void testSendFileMsg() {
         MediaMsg mediaMsg = new MediaMsg();
-        mediaMsg.setMedia_id("01111eb3600b4274a8ac28209961f08e");
+        mediaMsg.setMediaId("01111eb3600b4274a8ac28209961f08e");
         List<String> userList = new ArrayList<>();
         userList.add("f54e2a94ad724576825e7f0c886c81d2");
         userList.add("89a056757600493ab2d8f6dff671e9d9");
@@ -122,7 +120,7 @@ public class MassTest extends BaseTest {
     public void testSendTextCardMsg() {
         TextCardMsg textCardMsg = new TextCardMsg();
         textCardMsg.setUrl("https://www.baidu.com");
-        textCardMsg.setButton_text("详情");
+        textCardMsg.setButtonText("详情");
         textCardMsg.setTitle("长标题123456789012345678901234567890123456789012");
         List<TextCardContent> contentList = new ArrayList<>();
         TextCardContent content = new TextCardContent();
@@ -146,7 +144,7 @@ public class MassTest extends BaseTest {
         content3.setAttr(contentAttr3);
         contentList.add(content3);
 
-        textCardMsg.setContent_list(contentList);
+        textCardMsg.setContentList(contentList);
         List<String> userList = new ArrayList<>();
         userList.add("f54e2a94ad724576825e7f0c886c81d2");
         userList.add("89a056757600493ab2d8f6dff671e9d9");
@@ -162,11 +160,11 @@ public class MassTest extends BaseTest {
         KeyValueMsg keyValueMsg = new KeyValueMsg();
         keyValueMsg.setTitle("长标题123456789012345678901234567890123456789012");
         keyValueMsg.setUrl("https://www.baidu.com");
-        keyValueMsg.setButton_text("详情");
+        keyValueMsg.setButtonText("详情");
         ColorText subTitle = new ColorText();
         subTitle.setText("开头语");
         subTitle.setMsgColor(MsgColor.BLACK);
-        keyValueMsg.setSub_title(subTitle);
+        keyValueMsg.setSubTitle(subTitle);
         ColorText footer = new ColorText();
         footer.setText("末尾语");
         footer.setMsgColor(MsgColor.HIGHLIGHT);
@@ -200,7 +198,7 @@ public class MassTest extends BaseTest {
         processMsg.setBody("内容");
         processMsg.setUrl("https://www.baidu.com");
         List<String> userList = new ArrayList<>();
-        userList.add(NudgePlusConfig.getValue("openid"));
+        userList.add(NudgePlusConfig.getProperty("openid"));
         userList.add("b8d92ccf91f04c4fb9f51771857e584b");
         List<ProcessMsgMassResponse> responsesList = MassMessageService.sendProcessMsg(userList, processMsg);
         for (ProcessMsgMassResponse responses : responsesList) {
@@ -216,8 +214,8 @@ public class MassTest extends BaseTest {
         article.setAuthor("b8d92ccf91f04c4fb9f51771857e584b");
         article.setContent("内容1");
         File file = new File(this.getClass().getClassLoader().getResource("test1.jpeg").getFile());
-        String id = MediaService.upload(file, MsgType.RICHMSG);
-        article.setThumb_media_id("123");
+        String id = MediaService.upload(file, MsgType.RICH_MSG);
+        article.setThumbMediaId("123");
         article.setTitle("标题1");
         article.setUrl("www.baidu.comm");
         article.setXtime(System.currentTimeMillis());
@@ -227,7 +225,7 @@ public class MassTest extends BaseTest {
 //        article2.setAuthor("b8d92ccf91f04c4fb9f51771857e584b");
 //        article2.setContent("内容2");
 //        File file2 = new File(this.getClass().getClassLoader().getResource("test2.png").getFile());
-//        String id2 = MediaService.upload(file2, MsgType.RICHMSG);
+//        String id2 = MediaService.upload(file2, MsgType.RICH_MSG);
 //        article2.setThumb_media_id(id2);
 //        article2.setTitle("标题2");
 //        article2.setUrl("www.baidu.comm");

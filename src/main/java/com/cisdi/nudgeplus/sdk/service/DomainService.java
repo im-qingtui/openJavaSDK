@@ -2,9 +2,8 @@ package com.cisdi.nudgeplus.sdk.service;
 
 import com.cisdi.nudgeplus.sdk.constants.PathConstants;
 import com.cisdi.nudgeplus.sdk.datamng.ClientUtils;
-import com.cisdi.nudgeplus.sdk.exception.IllegalRequestException;
+import com.cisdi.nudgeplus.tmsbeans.beans.ResultWrapper;
 import com.cisdi.nudgeplus.tmsbeans.beans.domain.DomainResult;
-import com.cisdi.nudgeplus.tmsbeans.beans.ResultWapper;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,34 +12,26 @@ import java.util.Map;
  *
  * @author shizhen
  */
-public class DomainService {
-
+public final class DomainService {
 
     /**
-     * 根据domainNumber使用缓存的ACCESS_TOKEN查找domainId
+     * 根据domainNumber查找domainId
      *
      * @param domainNumber 团队号
      * @return 返回团队id
      */
     public static String getDomainId(String domainNumber) {
-        return getDomainId(domainNumber, TokenService.ACCESS_TOKEN);
+        Map<String, String> map = new HashMap<>();
+        map.put("accessToken", TokenService.getToken());
+        map.put("number", domainNumber);
+
+        String path = PathConstants.GET_DOMAIN_ID_PATH;
+
+        ResultWrapper<DomainResult> resultWrapper = ClientUtils.get(path, map, DomainResult.class);
+
+        return resultWrapper.getResult().getDomainId();
     }
 
-    /**
-     * 根据domainNumber使用指定的ACCESS_TOKEN查找domainId
-     *
-     * @param domainNumber 团队号
-     * @return 返回团队id
-     */
-    public static String getDomainId(String domainNumber, String token) {
-        Map<String, String> map = new HashMap<>();
-        map.put("accessToken", token);
-        map.put("number", domainNumber);
-        String path = PathConstants.TEAM_URL + PathConstants.GET_DOMAIN_ID_PATH;
-        ResultWapper<DomainResult> resultWapper = ClientUtils.get(path, map, DomainResult.class);
-        if (resultWapper.isError()) {
-            throw new IllegalRequestException(resultWapper.getErrorResult());
-        }
-        return resultWapper.getResult().getDomainId();
+    private DomainService() {
     }
 }

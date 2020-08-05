@@ -8,10 +8,10 @@ import org.junit.Test;
  *
  * @author shizhen
  */
-public class DomainServiceTest extends BaseTest {
+public class DomainServiceTest {
 
     @Test
     public void testGetDomainId() {
-        System.out.print(DomainService.getDomainId("90995"));
+        System.out.print(DomainService.getDomainId("95994"));
     }
 }

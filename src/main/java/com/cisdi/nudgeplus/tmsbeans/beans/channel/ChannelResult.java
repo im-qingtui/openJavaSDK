@@ -1,26 +1,22 @@
 package com.cisdi.nudgeplus.tmsbeans.beans.channel;
 
 import com.cisdi.nudgeplus.tmsbeans.beans.BaseResult;
-import com.google.gson.annotations.SerializedName;
-
 import java.util.List;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
- * Description
- * Date:2020/7/29
+ * Description Date:2020/7/29
  *
  * @author GuanZhong
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class ChannelResult extends BaseResult {
 
-    @SerializedName("result_list")
     private List<ChannelBaseInfo> resultList;
 
-    public List<ChannelBaseInfo> getResultList() {
-        return resultList;
-    }
-
-    public void setResultList(List<ChannelBaseInfo> resultList) {
-        this.resultList = resultList;
-    }
 }
+

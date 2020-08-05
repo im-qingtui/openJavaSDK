@@ -1,30 +1,18 @@
 package com.cisdi.nudgeplus.tmsbeans.model.request.org;
 
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  * 组织机构请求参数实体类
  *
  * @author shizhen
  */
+@Data
 public class RequestOrg implements Serializable {
 
-    private String orgId;//组织机构id
-    private String domainId;//团队id
+    private String orgId;
 
-    public String getOrgId() {
-        return orgId;
-    }
+    private String domainId;
 
-    public void setOrgId(String orgId) {
-        this.orgId = orgId;
-    }
-
-    public String getDomainId() {
-        return domainId;
-    }
-
-    public void setDomainId(String domainId) {
-        this.domainId = domainId;
-    }
 }

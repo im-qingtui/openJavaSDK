@@ -29,14 +29,14 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 
-public class ChannelMessageTest extends BaseTest {
+public class ChannelMessageTest {
 
-    private String openid = NudgePlusConfig.getValue("openid");
+    private String openid = NudgePlusConfig.getProperty("openid");
 
     private String channelId = "39ee5261e9594eafa5efb9532a32e795";
 
     @Test
-    public void sendSingleTextMsg1() {
+    public void sendSingleTextMsg() {
         TextMsg tm = new TextMsg();
         tm.setContent("哈哈，测试一下a");
         //String temp = SingleMessageService.sendTextMsg("6cfd6c5f2c0511e6946b6c92bf21d955", tm);
@@ -45,12 +45,12 @@ public class ChannelMessageTest extends BaseTest {
     }
 
     @Test
-    public void testCardMsg(){
+    public void testCardMsg() {
         CardMessage cardMessage = new CardMessage();
         Card card = TestKt.getTestCard();
         cardMessage.setCard(card);
         cardMessage.setContent(cardMessage.getContent());
-        String id = SingleMessageService.sendCardMsg(openid,cardMessage);
+        String id = SingleMessageService.sendCardMsg(openid, cardMessage);
         System.out.println(id);
     }
 
@@ -61,7 +61,7 @@ public class ChannelMessageTest extends BaseTest {
         ImageMsg img = new ImageMsg();
         // TODO 上传图片,发送图片URL
         if (id != null) {
-            img.setMedia_id(id);
+            img.setMediaId(id);
             String str = SingleMessageService.sendImageMsg(openid, img);
             System.out.println(str);
         }
@@ -71,7 +71,7 @@ public class ChannelMessageTest extends BaseTest {
     public void sendSingleRichMsg() {
 
         File file = new File(this.getClass().getClassLoader().getResource("test2.png").getFile());
-//        String attach_id = MediaService.upload(file, MsgType.RICHMSG);
+//        String attach_id = MediaService.upload(file, MsgType.RICH_MSG);
 //        System.out.println(attach_id);
         File file1 = new File(this.getClass().getClassLoader().getResource("test2.png").getFile());
         File file2 = new File(this.getClass().getClassLoader().getResource("test2.png").getFile());
@@ -94,15 +94,15 @@ public class ChannelMessageTest extends BaseTest {
         RichMedia richMedia1 = new RichMedia();
 //        RichMedia richMedia2 = new RichMedia();
         richMedia1.setName("这是图片1");
-        richMedia1.setMedia_id(pic_id1);
+        richMedia1.setMediaId(pic_id1);
 //        richMedia2.setName("这是图片2");
-//        richMedia2.setMedia_id(pic_id1);
+//        richMedia2.setMediaId(pic_id1);
         mediaList.add(richMedia1);
 //        mediaList.add(richMedia2);
         richMsg.setImgList(mediaList);
 //        RichMedia attachment = new RichMedia();
 //        attachment.setName("附件attachment");
-//        attachment.setMedia_id(attach_id);
+//        attachment.setMediaId(attach_id);
 //        richMsg.setAttachment(attachment);
         String str = ChannelMessageService.sendRichMsg(channelId, richMsg);
         System.out.println(str);
@@ -136,7 +136,7 @@ public class ChannelMessageTest extends BaseTest {
         MediaMsg mediaMsg = new MediaMsg();
         File file = new File("/Users/cisdi/Documents/8月28日重庆晨报第4版.pdf");
         String mediaId = MediaService.upload(file, MsgType.FILE);
-        mediaMsg.setMedia_id(mediaId);
+        mediaMsg.setMediaId(mediaId);
         System.out.println(SingleMessageService.sendFileMsg(openid, mediaMsg));
     }
 
@@ -144,7 +144,7 @@ public class ChannelMessageTest extends BaseTest {
     public void testSendTextCardMsg() {
         TextCardMsg textCardMsg = new TextCardMsg();
         textCardMsg.setUrl("https://www.baidu.com");
-        textCardMsg.setButton_text("详情");
+        textCardMsg.setButtonText("详情");
         textCardMsg.setTitle("标题");
         List<TextCardContent> contentList = new ArrayList<>();
         TextCardContent content = new TextCardContent();
@@ -153,7 +153,7 @@ public class ChannelMessageTest extends BaseTest {
         contentAttr.setColor(MsgColor.BLACK);
         content.setAttr(contentAttr);
         contentList.add(content);
-        textCardMsg.setContent_list(contentList);
+        textCardMsg.setContentList(contentList);
         System.out.println(SingleMessageService.sendTextCardMsg(openid, textCardMsg));
     }
 
@@ -162,11 +162,11 @@ public class ChannelMessageTest extends BaseTest {
         KeyValueMsg keyValueMsg = new KeyValueMsg();
         keyValueMsg.setTitle("标题");
         keyValueMsg.setUrl("https://www.baidu.com");
-        keyValueMsg.setButton_text("详情");
+        keyValueMsg.setButtonText("详情");
         ColorText subTitle = new ColorText();
         subTitle.setText("开头语");
         subTitle.setMsgColor(MsgColor.BLACK);
-        keyValueMsg.setSub_title(subTitle);
+        keyValueMsg.setSubTitle(subTitle);
         ColorText footer = new ColorText();
         footer.setText("末尾语");
         footer.setMsgColor(MsgColor.BLACK);
@@ -206,8 +206,8 @@ public class ChannelMessageTest extends BaseTest {
         List<Article> articles = new ArrayList<>();
         Article article = new Article();
         File file = new File(this.getClass().getClassLoader().getResource("test1.jpeg").getFile());
-        String id = MediaService.upload(file, MsgType.RICHMSG);
-        article.setThumb_media_id("123");
+        String id = MediaService.upload(file, MsgType.RICH_MSG);
+        article.setThumbMediaId("123");
         article.setContent("11111");
         article.setTitle("1");
         article.setUrl("www.baidu.comm");
@@ -216,7 +216,7 @@ public class ChannelMessageTest extends BaseTest {
 
 //        Article article2 = new Article();
 //        File file2 = new File(this.getClass().getClassLoader().getResource("test2.png").getFile());
-//        String id2 = MediaService.upload(file2, MsgType.RICHMSG);
+//        String id2 = MediaService.upload(file2, MsgType.RICH_MSG);
 //        article2.setThumb_media_id(id2);
 //        article2.setTitle("2");
 //        article2.setUrl("www.baidu.comm");
@@ -226,7 +226,7 @@ public class ChannelMessageTest extends BaseTest {
 //
 //        Article article3 = new Article();
 //        File file3 = new File(this.getClass().getClassLoader().getResource("test3.png").getFile());
-//        String id3 = MediaService.upload(file3, MsgType.RICHMSG);
+//        String id3 = MediaService.upload(file3, MsgType.RICH_MSG);
 //        article3.setThumb_media_id(id3);
 //        article3.setTitle("3");
 //        article3.setUrl("www.baidu.comm");
@@ -239,10 +239,11 @@ public class ChannelMessageTest extends BaseTest {
     }
 
     @Test
-    public void re(){
+    public void re() {
         TextCardMsg textCardMsg = new TextCardMsg();
-        textCardMsg.setUrl("https://open.qingtui.cn/v1/oauth2/authorize?appid=3659509525&redirect_uri=http%3a%2f%2f172.20.10.2:8081/#/mainPage?openId=779c3b94551841ec951cbf474d84e79f");
-        textCardMsg.setButton_text("围观详情");
+        textCardMsg.setUrl(
+            "https://open.qingtui.cn/v1/oauth2/authorize?appid=3659509525&redirect_uri=http%3a%2f%2f172.20.10.2:8081/#/mainPage?openId=779c3b94551841ec951cbf474d84e79f");
+        textCardMsg.setButtonText("围观详情");
         textCardMsg.setTitle("你分享的新资讯有100000人偷偷喜欢");
 
         List<TextCardContent> contentList = new ArrayList<TextCardContent>();
@@ -252,7 +253,7 @@ public class ChannelMessageTest extends BaseTest {
         contentAttr.setColor(MsgColor.BLACK);
         content.setAttr(contentAttr);
         contentList.add(content);
-        textCardMsg.setContent_list(contentList);
+        textCardMsg.setContentList(contentList);
         SingleMessageService.sendTextCardMsg("779c3b94551841ec951cbf474d84e79f", textCardMsg);
 
     }

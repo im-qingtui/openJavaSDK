@@ -5,7 +5,7 @@ import com.cisdi.nudgeplus.sdk.utils.JsonUtils;
 import com.cisdi.nudgeplus.sdk.utils.NudgePlusConfig;
 import com.cisdi.nudgeplus.tmsbeans.beans.BaseResult;
 import com.cisdi.nudgeplus.tmsbeans.beans.ErrorResult;
-import com.cisdi.nudgeplus.tmsbeans.beans.ResultWapper;
+import com.cisdi.nudgeplus.tmsbeans.beans.ResultWrapper;
 import com.cisdi.nudgeplus.tmsbeans.beans.StatusCode;
 import com.google.gson.JsonSyntaxException;
 import java.awt.image.BufferedImage;
@@ -19,21 +19,21 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import javax.imageio.ImageIO;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * 网络请求工具类
  */
+@Slf4j
 public final class ClientUtils {
-
-    private static final String BASE_URL = NudgePlusConfig.getValue("baseURL");
-
-    private static final String TEAM_URL = NudgePlusConfig.getValue("teamURL");
 
     private static final String POST_METHOD = "post";
 
@@ -57,20 +57,24 @@ public final class ClientUtils {
      * @return 返回对象
      * @throws IllegalRequestException 非法返回
      */
-    public static <T extends BaseResult> ResultWapper<T> get(String path, Map<String, String> params, Class<T> clazz)
+    public static <T extends BaseResult> ResultWrapper<T> get(String path, Map<String, String> params, Class<T> clazz)
         throws IllegalRequestException {
         if (params == null || params.isEmpty()) {
             throw new IllegalRequestException(" request params is null !");
         }
-        String result;
+
         InputStream responseInputStream = null;
         HttpURLConnection connection = null;
+        ResultWrapper<T> resultWrapper;
+
         try {
             URL realUrl = getUrl(path, params);
+
             connection = getHttpURLConnection(realUrl, GET_METHOD);
             responseInputStream = connection.getInputStream();
-            result = dealResponseToString(responseInputStream);
-            return parseResponse(result, clazz);
+            String result = dealResponseToString(responseInputStream);
+
+            resultWrapper = parseResponse(result, clazz);
         } catch (IOException e) {
             throw new IllegalRequestException("send get request error,Probably the path is wrong", e);
         } finally {
@@ -79,6 +83,7 @@ public final class ClientUtils {
                     responseInputStream.close();
                 }
             } catch (IOException e) {
+                log.error(e.getMessage(), e);
                 e.printStackTrace();
             }
             if (connection != null) {
@@ -86,6 +91,11 @@ public final class ClientUtils {
             }
         }
 
+        if (resultWrapper.isError()) {
+            throw new IllegalRequestException(resultWrapper.getErrorResult());
+        }
+
+        return resultWrapper;
     }
 
     /**
@@ -96,17 +106,21 @@ public final class ClientUtils {
      * @param json 请求参数
      * @param clazz 返回类型
      */
-    public static <T extends BaseResult> ResultWapper<T> post(String path, String token, String json, Class<T> clazz)
+    public static <T extends BaseResult> ResultWrapper<T> post(String path, String token, String json, Class<T> clazz)
         throws IllegalRequestException {
         HttpURLConnection connection = null;
         InputStream responseInputStream = null;
+        ResultWrapper<T> resultWrapper;
+
         try {
             URL url = getPostUrl(path, token, null);
+
             connection = getHttpURLConnection(url, POST_METHOD);
             sendPostRequestParam(connection, json);
             responseInputStream = connection.getInputStream();
             String result = dealResponseToString(responseInputStream);
-            return parseResponse(result, clazz);
+
+            resultWrapper = parseResponse(result, clazz);
         } catch (Exception e) {
             throw new IllegalRequestException(" send post request error:", e);
         } finally {
@@ -122,6 +136,11 @@ public final class ClientUtils {
             }
         }
 
+        if (resultWrapper.isError()) {
+            throw new IllegalRequestException(resultWrapper.getErrorResult());
+        }
+
+        return resultWrapper;
     }
 
     /**
@@ -131,17 +150,21 @@ public final class ClientUtils {
      * @param token 认证token
      * @param type 发送的文件类型 ("image","file")
      */
-    public static <T extends BaseResult> ResultWapper<T> uploadMedia(String path, String token, String type, File media, Class<T> clazz)
+    public static <T extends BaseResult> ResultWrapper<T> uploadMedia(String path, String token, String type, File media, Class<T> clazz)
         throws IllegalRequestException {
         HttpURLConnection connection = null;
         InputStream responseInputStream = null;
+        ResultWrapper<T> resultWrapper;
+
         try {
             URL url = getPostUrl(path, token, type);
+
             connection = getHttpURLConnection(url, POST_METHOD);
             sendRequestForUploadMedia(type, media, connection);
             responseInputStream = connection.getInputStream();
             String result = dealResponseToString(responseInputStream);
-            return parseResponse(result, clazz);
+
+            resultWrapper = parseResponse(result, clazz);
         } catch (Exception e) {
             throw new IllegalRequestException("send post request error", e);
         } finally {
@@ -157,6 +180,11 @@ public final class ClientUtils {
             }
         }
 
+        if (resultWrapper.isError()) {
+            throw new IllegalRequestException(resultWrapper.getErrorResult());
+        }
+
+        return resultWrapper;
     }
 
     /**
@@ -166,10 +194,13 @@ public final class ClientUtils {
         String boundary = "----------" + System.currentTimeMillis();
         httpURLConnection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
         OutputStream requestOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
+
         byte[] head = getHeaderOfUploadedFileRequest(boundary, media, type);
+        byte[] foot = getFootOfUploadedFileRequest(boundary);// 定义最后数据分隔线
+
         requestOutputStream.write(head);
         writeFileToRequestOutputStream(media, requestOutputStream);
-        byte[] foot = getFootOfUploadedFileRequest(boundary);// 定义最后数据分隔线
+
         requestOutputStream.write(foot);
         requestOutputStream.flush();
         requestOutputStream.close();
@@ -179,17 +210,19 @@ public final class ClientUtils {
     /**
      * 根据请求路径和请求参数，拼装后取得 请求的 URL 连接 对象
      *
-     * @param urlStr 请求路径
+     * @param path 请求路径
      * @param params 请求参数
      */
-    private static URL getUrl(String urlStr, Map<String, String> params) throws MalformedURLException {
-        if (params != null && !params.isEmpty()) {
-            String param = dealParamsMapToString(params);
-            urlStr += "?" + param;
-        }
-        return new URL(urlStr);
-    }
+    private static URL getUrl(String path, Map<String, String> params) throws MalformedURLException {
+        String url = NudgePlusConfig.getEndpoint() + path;
 
+        if (MapUtils.isNotEmpty(params)) {
+            String param = dealParamsMapToString(params);
+            url += "?" + param;
+        }
+
+        return new URL(url);
+    }
 
     /**
      * 根据响应输入流得到响应流的字符串
@@ -243,14 +276,15 @@ public final class ClientUtils {
      */
     private static String dealParamsMapToString(Map<String, String> params) {
         StringBuilder paramStr = new StringBuilder();
+
         for (Map.Entry<String, String> entry : params.entrySet()) {
             paramStr.append(entry.getKey());
             paramStr.append("=");
             paramStr.append(entry.getValue());
             paramStr.append("&");
         }
-        paramStr.substring(0, paramStr.length() - 1);
-        return paramStr.toString();
+
+        return paramStr.substring(0, paramStr.length() - 1);
     }
 
 
@@ -258,33 +292,32 @@ public final class ClientUtils {
      * 向建立好的http连接发送 请求参数
      */
     private static void sendPostRequestParam(HttpURLConnection httpURLConnection, String json) {
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter(httpURLConnection.getOutputStream());
+        try (PrintWriter writer = new PrintWriter(httpURLConnection.getOutputStream())) {
             writer.print(json);
             writer.flush();
         } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (writer != null) {
-                writer.close();
-            }
+            log.error(e.getMessage(), e);
         }
 
     }
 
     /**
-     * 根据请求路径和 token ,type获取请求的 url对象
+     * 根据请求路径和 token, type 获取请求的 url对象
      */
-    private static URL getPostUrl(String urlStr, String token, String type) throws MalformedURLException, IllegalRequestException {
-        if (token == null || ("").equals(token)) {
+    private static URL getPostUrl(String path, String token, String type) throws MalformedURLException, IllegalRequestException {
+        String url = NudgePlusConfig.getEndpoint() + path;
+
+        if (StringUtils.isEmpty(token)) {
             throw new IllegalRequestException("token is valid");
         }
-        urlStr += "?access_token=" + token;
-        if (type != null && !("").equals(type)) {
-            urlStr += "&type=" + type;
+
+        url += "?access_token=" + token;
+
+        if (StringUtils.isNotEmpty(type)) {
+            url += "&type=" + type;
         }
-        return new URL(urlStr);
+
+        return new URL(url);
     }
 
 
@@ -300,9 +333,11 @@ public final class ClientUtils {
         httpURLConnection.setRequestProperty("accept", "*/*");
         httpURLConnection.setConnectTimeout(CONNECT_TIMEOUT);
         httpURLConnection.setReadTimeout(READ_TIMEOUT);
+
         if (GET_METHOD.equals(requestMethod)) {
             return httpURLConnection;
         }
+
         // 设置通用的请求属性
         // 发送POST请求必须设置如下两行
         httpURLConnection.setDoOutput(true);
@@ -311,6 +346,7 @@ public final class ClientUtils {
         httpURLConnection.setRequestProperty("Charset", "UTF-8");
         httpURLConnection.setRequestProperty("content-type", "application/json");
         httpURLConnection.setRequestMethod("POST");
+
         return httpURLConnection;
     }
 
@@ -322,60 +358,65 @@ public final class ClientUtils {
         DataInputStream inputStream = new DataInputStream(new FileInputStream(media));
         int bytes;
         byte[] bufferOut = new byte[1024];
+
         while ((bytes = inputStream.read(bufferOut)) != -1) {
             requestOutputStream.write(bufferOut, 0, bytes);
         }
+
         inputStream.close();
     }
 
     /**
      * 获取上传文件时的http请求头部
      */
-    private static byte[] getHeaderOfUploadedFileRequest(String boundary, File media, String type)
-        throws UnsupportedEncodingException {
+    private static byte[] getHeaderOfUploadedFileRequest(String boundary, File media, String type) {
         StringBuilder sb = new StringBuilder();
+
         sb.append("--")
             .append(boundary)
             .append("\r\n")
             .append("Content-Disposition: form-data;name=\"media\";filename=\"")
             .append(media.getName())
             .append("\"\r\n");
+
         if (("image").equals(type) && isPicture(media)) {
             sb.append("Content-Type:image/jpeg\r\n\r\n");
         } else {
             sb.append("Content-Type:application/octet-stream\r\n\r\n");
         }
-        return sb.toString().getBytes("utf-8");
+
+        return sb.toString().getBytes(StandardCharsets.UTF_8);
     }
 
     /**
      * 获取上传文件时的http请求头部
      */
-    private static byte[] getFootOfUploadedFileRequest(String boundary)
-        throws UnsupportedEncodingException {
-        return ("\r\n--" + boundary + "--\r\n").getBytes("utf-8");
+    private static byte[] getFootOfUploadedFileRequest(String boundary) {
+        return ("\r\n--" + boundary + "--\r\n").getBytes(StandardCharsets.UTF_8);
     }
 
     /**
      * 根据返回的json字符串，将其转化为对象
      */
-    private static <T extends BaseResult> ResultWapper<T> parseResponse(String jsonStr, Class<T> clazz)
+    private static <T extends BaseResult> ResultWrapper<T> parseResponse(String jsonStr, Class<T> clazz)
         throws IllegalRequestException {
-        ResultWapper<T> result = new ResultWapper<T>();
-        T bean = null;
+
+        ResultWrapper<T> result = new ResultWrapper<T>();
+
         try {
-            bean = JsonUtils.jsonToBean(jsonStr, clazz);
+            T bean = JsonUtils.snakeJsonToBean(jsonStr, clazz);
+
+            if (bean.getErrcode() != 0) {
+                result.setError(true);
+                result.setErrorResult(new ErrorResult(bean.getErrcode(), bean.getErrmsg()));
+            } else {
+                result.setResult(bean);
+            }
         } catch (JsonSyntaxException e) {
-            bean = (T) new BaseResult();
-            bean.setErrcode(40038);
-            bean.setErrmsg(StatusCode.is(40038));
-        }
-        if (bean.getErrcode() != 0) {
             result.setError(true);
-            result.setErrorResult(new ErrorResult(bean.getErrcode(), bean.getErrmsg()));
-        } else {
-            result.setResult(bean);
+            result.setErrorResult(new ErrorResult(40038, StatusCode.is(40038)));
         }
+
         return result;
     }
 
@@ -383,16 +424,18 @@ public final class ClientUtils {
      * 判断文件是否是图片
      */
     private static boolean isPicture(File media) {
-        boolean isPicture = false;
+        boolean picture = false;
+
         try {
             BufferedImage image = ImageIO.read(media);
             if (image != null) {
-                isPicture = true;
+                picture = true;
             }
-        } catch (IOException ex) {
-            isPicture = false;
+        } catch (IOException e) {
+            log.error(e.getMessage(), e);
         }
-        return isPicture;
+
+        return picture;
     }
 
 }

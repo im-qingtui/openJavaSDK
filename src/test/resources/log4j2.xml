@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="ERROR">
+
+  <Properties>
+    <property name="log.root.level">INFO</property>
+    <property name="log.default.pattern">%-d{yyyy-MM-dd HH:mm:ss.SSS} [%p] [%X{REQUEST_ID} %X{METHOD}] %l %m%n</property>
+  </Properties>
+
+  <appenders>
+    <Console name="STDOUT" target="SYSTEM_OUT">
+      <PatternLayout>
+        <Pattern>${log.default.pattern}</Pattern>
+      </PatternLayout>
+    </Console>
+  </appenders>
+
+  <loggers>
+    <Root level="${log.root.level}">
+      <AppenderRef ref="STDOUT"/>
+    </Root>
+  </loggers>
+
+</configuration>

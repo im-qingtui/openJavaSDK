@@ -1,61 +1,28 @@
 package com.cisdi.nudgeplus.tmsbeans.beans.org;
 
 import com.cisdi.nudgeplus.tmsbeans.beans.BaseResult;
-import com.google.gson.annotations.SerializedName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 组织机构基础信息实体类
  *
  * @author shizhen
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class OrgBaseResult extends BaseResult {
 
-    private static final long serialVersionUID = 1L;
+    private String id;
 
-    private String id;//组织机构id
-    private String name;//组织机构名称
-    @SerializedName("parent_id")
-    private String parentId;//父极id
-    private Integer sequence;//组织机构顺序
-    private Integer grade;//组织机构等级
+    private String name;
 
-    public String getId() {
-        return id;
-    }
+    private String parentId;
 
-    public void setId(String id) {
-        this.id = id;
-    }
+    private Integer sequence;
 
-    public String getName() {
-        return name;
-    }
+    private Integer grade;
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
-
-    public Integer getSequence() {
-        return sequence;
-    }
-
-    public void setSequence(Integer sequence) {
-        this.sequence = sequence;
-    }
-
-    public Integer getGrade() {
-        return grade;
-    }
-
-    public void setGrade(Integer grade) {
-        this.grade = grade;
-    }
 }
