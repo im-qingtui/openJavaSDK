@@ -7,11 +7,9 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class MessageSendStatus extends BaseResult {
 
-    //TODO handle public property
-
     public static final String SEND_SUCCESS = "SEND_SUCCESS";
 
-    public static final String SEND_FAILD = "SEND_FAILD";
+    public static final String SEND_FAILED = "SEND_FAILED";
 
     public static final String SENDING = "SENDING";
 
