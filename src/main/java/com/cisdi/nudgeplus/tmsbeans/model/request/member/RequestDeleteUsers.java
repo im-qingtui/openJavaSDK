@@ -2,30 +2,20 @@ package com.cisdi.nudgeplus.tmsbeans.model.request.member;
 
 import java.io.Serializable;
 import java.util.List;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 批量删除成员的请求参数实体类
  *
  * @author shizhen
  */
+@Data
+@NoArgsConstructor
 public class RequestDeleteUsers implements Serializable {
 
-    private String domainId;//团队id
-    private List<Account> users;//用户list
+    private String domainId;
 
-    public String getDomainId() {
-        return domainId;
-    }
+    private List<Account> users;
 
-    public void setDomainId(String domainId) {
-        this.domainId = domainId;
-    }
-
-    public List<Account> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<Account> users) {
-        this.users = users;
-    }
 }

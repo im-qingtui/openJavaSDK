@@ -2,67 +2,99 @@ package com.cisdi.nudgeplus.sdk.service;
 
 import com.cisdi.nudgeplus.sdk.constants.PathConstants;
 import com.cisdi.nudgeplus.sdk.datamng.ClientUtils;
-import com.cisdi.nudgeplus.sdk.exception.IllegalRequestException;
+import com.cisdi.nudgeplus.sdk.utils.JsonUtils;
 import com.cisdi.nudgeplus.sdk.utils.NudgePlusConfig;
-import com.cisdi.nudgeplus.tmsbeans.beans.ResultWapper;
+import com.cisdi.nudgeplus.tmsbeans.beans.ResultWrapper;
 import com.cisdi.nudgeplus.tmsbeans.beans.TokenResult;
+import com.google.gson.annotations.SerializedName;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.StringUtils;
 
-public class TokenService {
+@Slf4j
+public final class TokenService {
+
+    private static volatile String accessToken;
+
+    private static volatile long accessTokenExpiration = 0L;
+
+    private static volatile TokenPayload payload;
+
+    private static final long TOKEN_REFRESH_LIMIT = 300000L;
 
     /**
-     * 缓存的ACCESS_TOKEN
-     */
-    public static String ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJkb21haW5faWQiOiJmOTRlMGNiZDQ5YTc0YjNmYjFjNzY5M2E5MjM4M2JlOSIsImRpc3BhdGNoIjoxNTk2NDE3ODkzOTA0LCJhcHBpZCI6IjQ4NTY2ODQwNjEiLCJleHBpcmVzX2luIjoxNTk2NDI1MDkzOTA0fQ.-yFxEwbXczJMRnm7eVxN640O_fjNm_1F6HpD8zgxGpc";
-
-    /**
-     * 根据appid和secret刷新缓存的ACCESS_TOKEN,当调用不提供ACCESS_TOKEN的方法时默认使用此方法刷新的ACCESS_TOKEN. 开发者可以定时(2小时以内的周期)调用此方法,以确保ACCESS_TOKEN的长期有效
+     * 根据 appId 和 secret 获取 5分钟内可用的 access token
      *
-     * @param appid 平台发放的appid
-     * @param secret 平台发放的secret
+     * @return token
      */
-    public static synchronized void refreshToken(final String appid, final String secret) {
-        TokenResult token = null;
-        try {
-            token = getToken(appid, secret);
-        } catch (IllegalRequestException e) {
-            e.printStackTrace();
+    public static String getToken() {
+        if (System.currentTimeMillis() > accessTokenExpiration || StringUtils.isEmpty(accessToken)) {
+            refreshToken();
         }
-        if (token != null) {
-            ACCESS_TOKEN = token.getAccessToken();
+
+        return accessToken;
+    }
+
+    public static String getDomainIdByToken() {
+        if (System.currentTimeMillis() > accessTokenExpiration || null == payload) {
+            refreshToken();
         }
+
+        return payload.getDomainId();
+    }
+
+    @Data
+    @NoArgsConstructor
+    private static class TokenPayload {
+        private String domainId;
+        @SerializedName("appid")
+        private String appId;
+        private long dispatch;
+        private long expiresIn;
     }
 
     /**
-     * 使用appid和secret获取ACCESS_TOKEN,新的ACCESS_TOKEN不会覆盖老的ACCESS_TOKEN,每个ACCESS_TOKEN可以使用2小时
-     *
-     * @param appid 平台发放的appid
-     * @param secret 平台发放的secret
-     * @return TokenResult ACCESS_TOKEN的包装类
+     * 根据 NudgePlusConfig 中保存的 appId 和 secret 刷新token
      */
-    public static TokenResult getToken(String appid, String secret) {
-        Map<String, String> queryParams = new HashMap<String, String>();
+    private static synchronized void refreshToken() {
+        String appId = NudgePlusConfig.getAppId();
+        String appSecret = NudgePlusConfig.getAppSecret();
+
+        Map<String, String> queryParams = new HashMap<>();
+
         queryParams.put("grant_type", "client_credential");
-        queryParams.put("appid", appid);
-        queryParams.put("secret", secret);
-        ResultWapper<TokenResult> resultWapper;
-        TokenResult token;
-        String path = PathConstants.BASE_URL + PathConstants.TOKEN;
-        resultWapper = ClientUtils.get(path, queryParams, TokenResult.class);
-        if (resultWapper.isError()) {
-            throw new IllegalRequestException(resultWapper.getErrorResult());
+        queryParams.put("appid", appId);
+        queryParams.put("secret", appSecret);
+
+        String path = PathConstants.TOKEN;
+
+        ResultWrapper<TokenResult> res = ClientUtils.get(path, queryParams, TokenResult.class);
+
+        if (res.isError()) {
+            log.info("获取token失败, res={}", res.getErrorResult());
         }
-        token = resultWapper.getResult();
-        return token;
+
+        TokenResult token = res.getResult();
+
+        accessToken = token.getAccessToken();
+        payload = parseTokenPayload();
+        accessTokenExpiration = payload.getExpiresIn() - TOKEN_REFRESH_LIMIT;
+        log.info("token refreshed, payload={}", payload);
     }
 
-    /**
-     * 使用配置文件的appid和secret获取ACCESS_TOKEN,新的ACCESS_TOKEN不会覆盖老的ACCESS_TOKEN,每个ACCESS_TOKEN可以使用2小时
-     *
-     * @return TokenResult ACCESS_TOKEN的包装类
-     */
-    public static TokenResult getToken() {
-        return getToken(NudgePlusConfig.getValue("APP_ID"), NudgePlusConfig.getValue("APP_SECRET"));
+    private static TokenPayload parseTokenPayload() {
+        Base64 base64 = new Base64();
+        String json = new String(base64.decode(accessToken.split("\\.")[1]), StandardCharsets.UTF_8);
+
+        return JsonUtils.snakeJsonToBean(json, TokenPayload.class);
+    }
+
+
+    private TokenService() {
     }
 }

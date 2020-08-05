@@ -1,39 +1,22 @@
 package com.cisdi.nudgeplus.tmsbeans.model.request.member;
 
 import java.io.Serializable;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 分页获取用户信息请求参数实体
  *
  * @author shizhen
  */
+@Data
+@NoArgsConstructor
 public class RequestPagedUserInfo implements Serializable {
 
-    private int pageSize;//每页大小
-    private int requestPage;//请求页数
-    private String domainId;//团队id
+    private int pageSize;
 
-    public int getPageSize() {
-        return pageSize;
-    }
+    private int requestPage;
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
+    private String domainId;
 
-    public int getRequestPage() {
-        return requestPage;
-    }
-
-    public void setRequestPage(int requestPage) {
-        this.requestPage = requestPage;
-    }
-
-    public String getDomainId() {
-        return domainId;
-    }
-
-    public void setDomainId(String domainId) {
-        this.domainId = domainId;
-    }
 }

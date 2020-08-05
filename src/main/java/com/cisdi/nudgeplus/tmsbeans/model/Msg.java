@@ -1,15 +1,12 @@
 package com.cisdi.nudgeplus.tmsbeans.model;
 
-public class Msg  extends MsgModel{
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-	private String touser;
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class Msg extends MsgModel {
 
-	public String getTouser() {
-		return touser;
-	}
-
-	public void setTouser(String touser) {
-		this.touser = touser;
-	}
+    private String toUser;
 
 }

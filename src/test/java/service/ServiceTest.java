@@ -1,22 +1,22 @@
 package service;
 
+import com.cisdi.nudgeplus.sdk.service.MediaService;
+import com.cisdi.nudgeplus.sdk.service.ServiceMessageService;
+import com.cisdi.nudgeplus.tmsbeans.constants.MsgType;
 import com.cisdi.nudgeplus.tmsbeans.model.Article;
+import com.cisdi.nudgeplus.tmsbeans.model.ImageMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.NewsMsg;
+import com.cisdi.nudgeplus.tmsbeans.model.RichMedia;
+import com.cisdi.nudgeplus.tmsbeans.model.RichMsg;
+import com.cisdi.nudgeplus.tmsbeans.model.RichUrl;
+import com.cisdi.nudgeplus.tmsbeans.model.TextMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.media.MediaMsg;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
-import com.cisdi.nudgeplus.sdk.service.MediaService;
-import com.cisdi.nudgeplus.sdk.service.ServiceMessageService;
-import com.cisdi.nudgeplus.tmsbeans.constants.MsgType;
-import com.cisdi.nudgeplus.tmsbeans.model.ImageMsg;
-import com.cisdi.nudgeplus.tmsbeans.model.RichMedia;
-import com.cisdi.nudgeplus.tmsbeans.model.RichMsg;
-import com.cisdi.nudgeplus.tmsbeans.model.RichUrl;
-import com.cisdi.nudgeplus.tmsbeans.model.TextMsg;
 
-public class ServiceTest extends BaseTest {
+public class ServiceTest {
 
     @Test
     public void sendTextMsg() {
@@ -33,7 +33,7 @@ public class ServiceTest extends BaseTest {
         ImageMsg img = new ImageMsg();
         // TODO 上传图片,发送图片URL
         if (id != null) {
-            img.setMedia_id(id);
+            img.setMediaId(id);
             String msg_id = ServiceMessageService.sendImageMsg(img);
             System.out.println(msg_id);
         }
@@ -41,10 +41,10 @@ public class ServiceTest extends BaseTest {
 
     @Test
     public void sendServiceRichMsg() {
-        File file = new File("/Users/sunny/Desktop/123.png");
-        String attach_id = MediaService.upload(file, MsgType.RICHMSG);
+        File file = new File(this.getClass().getClassLoader().getResource("test2.png").getFile());
+        String attach_id = MediaService.upload(file, MsgType.RICH_MSG);
         System.out.println(attach_id);
-        File file1 = new File("/Users/sunny/Desktop/124.png");
+        File file1 = new File(this.getClass().getClassLoader().getResource("test3.png").getFile());
         String pic_id = MediaService.upload(file1, MsgType.IMAGE);
         System.out.println(pic_id);
         RichMsg richMsg = new RichMsg();
@@ -61,14 +61,14 @@ public class ServiceTest extends BaseTest {
         List<RichMedia> mediaList = new ArrayList<RichMedia>();
         RichMedia richMedia = new RichMedia();
         richMedia.setName("这是图片");
-        richMedia.setMedia_id(pic_id);
+        richMedia.setMediaId(pic_id);
         mediaList.add(richMedia);
         mediaList.add(richMedia);
         mediaList.add(richMedia);
         richMsg.setImgList(mediaList);
         RichMedia attachment = new RichMedia();
         attachment.setName("啦啦啦啦德玛西亚");
-        attachment.setMedia_id(attach_id);
+        attachment.setMediaId(attach_id);
         richMsg.setAttachment(attachment);
         String msg_id = ServiceMessageService.sendRichMsg(richMsg);
         System.out.println("msgId1:" + msg_id);
@@ -77,11 +77,11 @@ public class ServiceTest extends BaseTest {
     @Test
     public void sendBatch() throws InterruptedException {
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 2; i++) {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    for (int x = 0; x < 10; x++) {
+                    for (int x = 0; x < 1; x++) {
                         try {
                             Thread.sleep(100);
                             sendServiceRichMsg();
@@ -93,13 +93,13 @@ public class ServiceTest extends BaseTest {
             }) {
             }.start();
         }
-        Thread.sleep(60000);
+        Thread.sleep(6000);
     }
 
     @Test
     public void testSendSFileMsg() {
         MediaMsg mediaMsg = new MediaMsg();
-        mediaMsg.setMedia_id("01111eb3600b4274a8ac28209961f08e");
+        mediaMsg.setMediaId("01111eb3600b4274a8ac28209961f08e");
         System.out.println(ServiceMessageService.sendFileMsg(mediaMsg));
     }
 
@@ -111,7 +111,7 @@ public class ServiceTest extends BaseTest {
         article.setContent("内容1");
         File file = new File(this.getClass().getClassLoader().getResource("test1.jpeg").getFile());
         String id = MediaService.upload(file, MsgType.IMAGE);
-        article.setThumb_media_id("123");
+        article.setThumbMediaId("123");
         article.setTitle("标题1");
         article.setUrl("www.baidu.comm");
         article.setXtime(System.currentTimeMillis());

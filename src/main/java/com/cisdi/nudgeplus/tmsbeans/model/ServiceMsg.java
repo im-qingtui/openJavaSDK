@@ -1,16 +1,13 @@
 package com.cisdi.nudgeplus.tmsbeans.model;
 
 
-public class ServiceMsg extends MsgModel{
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
-	private ServiceMsgFilter filter;
-	
-	public ServiceMsgFilter getFilter() {
-		return filter;
-	}
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class ServiceMsg extends MsgModel {
 
-	public void setFilter(ServiceMsgFilter filter) {
-		this.filter = filter;
-	}
+    private ServiceMsgFilter filter;
 
 }

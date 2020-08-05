@@ -1,57 +1,24 @@
 package com.cisdi.nudgeplus.tmsbeans.model.request.org;
 
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  * 创建新的组织机构请求参数实体类
  *
  * @author shizhen
  */
+@Data
 public class RequestNewOrg implements Serializable {
 
-    private String name;//组织机构名
-    private String parentId;//组织机构父节点
-    private String domainId;//团队id
-    private Integer sequence;//顺序
-    private Boolean autoSequence;//自动排序
+    private String name;
 
-    public String getName() {
-        return name;
-    }
+    private String parentId;
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    private String domainId;
 
-    public String getParentId() {
-        return parentId;
-    }
+    private Integer sequence;
 
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
-    }
+    private Boolean autoSequence;
 
-    public String getDomainId() {
-        return domainId;
-    }
-
-    public void setDomainId(String domainId) {
-        this.domainId = domainId;
-    }
-
-    public Integer getSequence() {
-        return sequence;
-    }
-
-    public void setSequence(Integer sequence) {
-        this.sequence = sequence;
-    }
-
-    public Boolean getAutoSequence() {
-        return autoSequence;
-    }
-
-    public void setAutoSequence(Boolean autoSequence) {
-        this.autoSequence = autoSequence;
-    }
 }

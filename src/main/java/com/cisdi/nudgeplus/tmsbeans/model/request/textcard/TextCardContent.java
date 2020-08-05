@@ -1,30 +1,18 @@
 package com.cisdi.nudgeplus.tmsbeans.model.request.textcard;
 
 import java.io.Serializable;
+import lombok.Data;
 
 /**
  * 文本卡片消息内容实体类
  *
  * @author shizhen
  */
+@Data
 public class TextCardContent implements Serializable {
 
-    private String text;//标题
+    private String text;
+
     private ContentAttr attr;
 
-    public String getText() {
-        return text;
-    }
-
-    public void setText(String text) {
-        this.text = text;
-    }
-
-    public ContentAttr getAttr() {
-        return attr;
-    }
-
-    public void setAttr(ContentAttr attr) {
-        this.attr = attr;
-    }
 }

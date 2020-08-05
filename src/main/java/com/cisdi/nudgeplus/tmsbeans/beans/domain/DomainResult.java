@@ -1,24 +1,21 @@
 package com.cisdi.nudgeplus.tmsbeans.beans.domain;
 
 import com.cisdi.nudgeplus.tmsbeans.beans.BaseResult;
+import com.google.gson.annotations.SerializedName;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 /**
  * 团队结果
  *
  * @author shizhen
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class DomainResult extends BaseResult {
 
-    private static final long serialVersionUID = 1L;
-    private String domainId;//团队id
-
-    public String getDomainId() {
-        return domainId;
-    }
-
-    public void setDomainId(String domainId) {
-        this.domainId = domainId;
-    }
-
+    private String domainId;
 
 }

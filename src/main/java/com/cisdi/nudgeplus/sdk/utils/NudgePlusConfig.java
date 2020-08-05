@@ -1,31 +1,64 @@
 package com.cisdi.nudgeplus.sdk.utils;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
+import lombok.extern.slf4j.Slf4j;
 
-public class NudgePlusConfig {
-	public NudgePlusConfig() {}
+@Slf4j
+public final class NudgePlusConfig {
 
-	private static Properties props = new Properties();
-	static {
-		try {
-			props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("qingtui.properties"));
-		} catch ( FileNotFoundException e ) {
-			e.printStackTrace();
-		} catch ( IOException e ) {
-			e.printStackTrace();
-		}
-	}
+    private static final String APP_ID = "APP_ID";
 
-	public static String getValue(String key) {
-		//兼容老版本单词拼写错误
-		if("APP_SERCRET".equals(key))
-			key = "APP_SECRET";
-		return props.getProperty(key);
-	}
+    private static final String APP_SECRET = "APP_SECRET";
 
-	public static void updateProperties(String key, String value) {
-		props.setProperty(key, value);
-	}
+    private static final String ENDPOINT = "ENDPOINT";
+
+    private static Properties props = new Properties();
+
+    static {
+        init();
+    }
+
+    public static String getAppId() {
+        return props.getProperty(APP_ID);
+    }
+
+    public static String getAppSecret() {
+        return props.getProperty(APP_SECRET);
+    }
+
+    public static String getEndpoint() {
+        return props.getProperty(ENDPOINT);
+    }
+
+    public static void setAppId(String appId) {
+        setProperty(APP_ID, appId);
+    }
+
+    public static void setAppSecret(String appSecret) {
+        setProperty(APP_SECRET, appSecret);
+    }
+
+    public static void setEndpoint(String endpoint) {
+        setProperty(ENDPOINT, endpoint);
+    }
+
+    public static String getProperty(String key) {
+        return props.getProperty(key, "");
+    }
+
+    public static void setProperty(String key, String value) {
+        props.setProperty(key, value);
+    }
+
+    private static synchronized void init() {
+        try {
+            props.load(Thread.currentThread().getContextClassLoader().getResourceAsStream("qingtui.properties"));
+        } catch (IOException e) {
+            log.error(e.getLocalizedMessage(), e);
+        }
+    }
+
+    private NudgePlusConfig() {
+    }
 }

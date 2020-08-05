@@ -6,8 +6,7 @@ import com.cisdi.nudgeplus.tmsbeans.beans.channel.ChannelResult;
 import org.junit.Test;
 
 /**
- * 群相关接口测试
- * Date:2020/7/29
+ * 群相关接口测试 Date:2020/7/29
  *
  * @author GuanZhong
  */
@@ -15,7 +14,7 @@ public class ChannelServiceTest {
 
     @Test
     public void testGetChannelList() {
-        ChannelResult channelResult = ChannelService.getChannelList("4856684061");
+        ChannelResult channelResult = ChannelService.getChannelList();
         System.out.println(channelResult);
     }
 

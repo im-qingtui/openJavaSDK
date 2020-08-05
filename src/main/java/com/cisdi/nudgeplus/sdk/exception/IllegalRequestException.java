@@ -4,8 +4,6 @@ import com.cisdi.nudgeplus.tmsbeans.beans.BaseResult;
 
 public class IllegalRequestException extends RuntimeException {
 
-    private static final long serialVersionUID = 1L;
-
     private BaseResult error;
 
     public IllegalRequestException() {

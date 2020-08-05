@@ -1,11 +1,18 @@
 package service;
 
 import com.cisdi.nudgeplus.sdk.service.MemberService;
-import com.cisdi.nudgeplus.tmsbeans.model.request.member.*;
-
+import com.cisdi.nudgeplus.tmsbeans.model.request.member.Account;
+import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestBatchCreateUsers;
+import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestCreateUser;
+import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestDeleteUsers;
+import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestPagedOrgUserInfo;
+import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestPagedSyncMember;
+import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestPagedUserInfo;
+import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestUpdateUser;
+import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestUser;
+import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestUserBatch;
 import java.util.ArrayList;
 import java.util.List;
-
 import org.junit.Test;
 
 /**
@@ -13,7 +20,7 @@ import org.junit.Test;
  *
  * @author shizhen
  */
-public class MemberServiceTest extends BaseTest {
+public class MemberServiceTest {
 
     @Test
     public void testGetUserInformation() {
@@ -70,8 +77,8 @@ public class MemberServiceTest extends BaseTest {
         RequestDeleteUsers request = new RequestDeleteUsers();
         request.setDomainId("b9b3539c60064d5b9c6e39ac985d4369");
         List<Account> accountList = new ArrayList<>();
-        Account account1 = new Account("7dd8f144a0505b86c1934be1101b2e21");
-        accountList.add(account1);
+        Account account = new Account("7dd8f144a0505b86c1934be1101b2e21");
+        accountList.add(account);
         request.setUsers(accountList);
         MemberService.batchDeleteUsers(request);
     }
