@@ -197,7 +197,7 @@ public final class OrgService {
             }
         }
 
-        String path = PathConstants.ORG_UOPDATE_PATH;
+        String path = PathConstants.ORG_UPDATE_PATH;
 
         ClientUtils.post(path, TokenService.getToken(), JsonUtils.beanToJson(request), BaseResult.class);
     }

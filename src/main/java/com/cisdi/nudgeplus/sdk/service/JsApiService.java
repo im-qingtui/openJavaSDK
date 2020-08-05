@@ -47,7 +47,7 @@ public final class JsApiService {
         Map<String, String> map = new HashMap<>();
         map.put("accessToken", TokenService.getToken());
 
-        String path = PathConstants.GET_TICKTET_PATH;
+        String path = PathConstants.GET_TICKET_PATH;
 
         ResultWrapper<TicketResult> resultWrapper = ClientUtils.get(path, map, TicketResult.class);
 

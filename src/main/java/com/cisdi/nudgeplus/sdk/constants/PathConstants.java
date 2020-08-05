@@ -4,10 +4,6 @@ import com.cisdi.nudgeplus.sdk.utils.NudgePlusConfig;
 
 public final class PathConstants {
 
-    public static final String BASE_URL = NudgePlusConfig.getProperty("baseURL");
-    public static final String TEAM_URL = NudgePlusConfig.getProperty("teamURL");
-    public static final String JSAPI_URL = NudgePlusConfig.getProperty("jsapiURL");
-
     public static final String TOKEN = "/v1/token";
 
     public static final String SINGLE_MESSAGE_PATH = "/v1/message/single/send";
@@ -86,15 +82,15 @@ public final class PathConstants {
     public static final String SUM_USER_OF_ORG_PATH = "/team/org/member/count";
     public static final String ORG_DELETE_PATH = "/team/org/delete/json";
     public static final String ORG_CREATE_PATH = "/team/org/create/json";
-    public static final String ORG_UOPDATE_PATH = "/team/org/update/json";
+    public static final String ORG_UPDATE_PATH = "/team/org/update/json";
     public static final String ORG_SYNC_PATH = "/team/org/sync";
 
     public static final String MEDIA_DOWNLOAD_PATH = "/team/media/download/path";
 
-    public static final String GET_TICKTET_PATH = "/js/ticket/get";
-
     public static final String GET_CHANNEL_LIST_PATH = "/team/channel/list";
     public static final String GET_CHANNEL_MEMBER_LIST_PATH = "/team/channel/member/list";
+
+    public static final String GET_TICKET_PATH = "/js/ticket/get";
 
     private PathConstants() {
     }
