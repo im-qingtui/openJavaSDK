@@ -1,6 +1,7 @@
 package service;
 
 import com.cisdi.nudgeplus.sdk.service.ChannelMessageService;
+import com.cisdi.nudgeplus.sdk.service.MassMessageService;
 import com.cisdi.nudgeplus.sdk.service.MediaService;
 import com.cisdi.nudgeplus.sdk.service.SingleMessageService;
 import com.cisdi.nudgeplus.sdk.utils.NudgePlusConfig;
@@ -50,7 +51,7 @@ public class ChannelMessageTest {
         Card card = TestKt.getTestCard();
         cardMessage.setCard(card);
         cardMessage.setContent(cardMessage.getContent());
-        String id = SingleMessageService.sendCardMsg(openid, cardMessage);
+        String id = ChannelMessageService.sendCardMsg(channelId, cardMessage);
         System.out.println(id);
     }
 
@@ -257,4 +258,5 @@ public class ChannelMessageTest {
         SingleMessageService.sendTextCardMsg("779c3b94551841ec951cbf474d84e79f", textCardMsg);
 
     }
+
 }

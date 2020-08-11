@@ -1,9 +1,11 @@
 package service;
 
+import com.cisdi.nudgeplus.sdk.service.MassMessageService;
 import com.cisdi.nudgeplus.sdk.service.MediaService;
 import com.cisdi.nudgeplus.sdk.service.ServiceMessageService;
 import com.cisdi.nudgeplus.tmsbeans.constants.MsgType;
 import com.cisdi.nudgeplus.tmsbeans.model.Article;
+import com.cisdi.nudgeplus.tmsbeans.model.CardMessage;
 import com.cisdi.nudgeplus.tmsbeans.model.ImageMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.NewsMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.RichMedia;
@@ -11,6 +13,8 @@ import com.cisdi.nudgeplus.tmsbeans.model.RichMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.RichUrl;
 import com.cisdi.nudgeplus.tmsbeans.model.TextMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.media.MediaMsg;
+import im.qingtui.cross.card_message.Card;
+import im.qingtui.cross.card_message.TestKt;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,4 +123,15 @@ public class ServiceTest {
         newsMsg.setArticles(articles);
         System.out.println(ServiceMessageService.sendNewsMsg(newsMsg));
     }
+
+    @Test
+    public void testCardMsg() {
+        CardMessage cardMessage = new CardMessage();
+        Card card = TestKt.getTestCard();
+        cardMessage.setCard(card);
+        cardMessage.setContent(cardMessage.getContent());
+        String id = ServiceMessageService.sendCardMsg(cardMessage);
+        System.out.println(id);
+    }
+
 }

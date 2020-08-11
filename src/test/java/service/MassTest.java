@@ -2,9 +2,11 @@ package service;
 
 import com.cisdi.nudgeplus.sdk.service.MassMessageService;
 import com.cisdi.nudgeplus.sdk.service.MediaService;
+import com.cisdi.nudgeplus.sdk.service.SingleMessageService;
 import com.cisdi.nudgeplus.sdk.utils.NudgePlusConfig;
 import com.cisdi.nudgeplus.tmsbeans.constants.MsgType;
 import com.cisdi.nudgeplus.tmsbeans.model.Article;
+import com.cisdi.nudgeplus.tmsbeans.model.CardMessage;
 import com.cisdi.nudgeplus.tmsbeans.model.ImageMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.NewsMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.RichMedia;
@@ -21,6 +23,8 @@ import com.cisdi.nudgeplus.tmsbeans.model.request.textcard.ContentAttr;
 import com.cisdi.nudgeplus.tmsbeans.model.request.textcard.TextCardContent;
 import com.cisdi.nudgeplus.tmsbeans.model.request.textcard.TextCardMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.response.ProcessMsgMassResponse;
+import im.qingtui.cross.card_message.Card;
+import im.qingtui.cross.card_message.TestKt;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,9 +55,8 @@ public class MassTest {
         if (id != null) {
             img.setMediaId(id);
             List<String> userList = new ArrayList<String>();
-            for (int i = 0; i < 10; i++) {
-                userList.add(NudgePlusConfig.getProperty("openid"));
-            }
+            userList.add("89be684aeae64b87b5ef865d4a56ded6");
+            userList.add("83137222dd3c40d8b814a3babab1d648");
             String msg_id = MassMessageService.sendImageMsg(userList, img);
             System.out.println(msg_id);
         }
@@ -61,15 +64,11 @@ public class MassTest {
 
     @Test
     public void sendRichMsg() {
-        File file = new File("G:\\ABCDEFG.docx");
-        String attach_id = MediaService.upload(file, MsgType.RICH_MSG);
+        File file = new File(this.getClass().getClassLoader().getResource("test2.png").getFile());
+        String attach_id = MediaService.upload(file, MsgType.IMAGE);
         System.out.println(attach_id);
-        File file1 = new File("G:\\mao.jpg");
-        File file2 = new File("G:\\maomi.jpg");
-        String pic_id1 = MediaService.upload(file1, MsgType.IMAGE);
-        String pic_id2 = MediaService.upload(file2, MsgType.IMAGE);
-        System.out.println(pic_id1);
-        System.out.println(pic_id2);
+        File file1 = new File(this.getClass().getClassLoader().getResource("test3.png").getFile());
+        String pic_id = MediaService.upload(file1, MsgType.IMAGE);
         RichMsg richMsg = new RichMsg();
         richMsg.setTitle("这是一个测试title");
         richMsg.setBody("这是测试的消息体123456");
@@ -85,9 +84,9 @@ public class MassTest {
         RichMedia richMedia1 = new RichMedia();
         RichMedia richMedia2 = new RichMedia();
         richMedia1.setName("这是图片1");
-        richMedia1.setMediaId(pic_id1);
+        richMedia1.setMediaId(pic_id);
         richMedia2.setName("这是图片2");
-        richMedia2.setMediaId(pic_id1);
+        richMedia2.setMediaId(attach_id);
         mediaList.add(richMedia1);
         mediaList.add(richMedia2);
         richMsg.setImgList(mediaList);
@@ -96,8 +95,8 @@ public class MassTest {
         attachment.setMediaId(attach_id);
         richMsg.setAttachment(attachment);
         List<String> userList = new ArrayList<String>();
-        userList.add("0497632ccae14cf182cb7262b997a882");
-        userList.add("0497632ccae14cf182cb7262b997a882");
+        userList.add("89be684aeae64b87b5ef865d4a56ded6");
+        userList.add("83137222dd3c40d8b814a3babab1d648");
         String msg_id = MassMessageService.sendRichMsg(userList, richMsg);
         System.out.println(msg_id);
     }
@@ -235,5 +234,18 @@ public class MassTest {
         List<String> userList = new ArrayList<>();
         userList.add("60ccc83e99c64e87b5d1813b061ffea9");
         System.out.println(MassMessageService.sendNewsMsg(userList, newsMsg));
+    }
+
+    @Test
+    public void testCardMsg() {
+        CardMessage cardMessage = new CardMessage();
+        Card card = TestKt.getTestCard();
+        cardMessage.setCard(card);
+        cardMessage.setContent(cardMessage.getContent());
+        List<String> userList = new ArrayList<String>();
+        userList.add("89be684aeae64b87b5ef865d4a56ded6");
+        userList.add("83137222dd3c40d8b814a3babab1d648");
+        String id = MassMessageService.sendCardMsg(userList, cardMessage);
+        System.out.println(id);
     }
 }

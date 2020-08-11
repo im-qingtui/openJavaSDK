@@ -54,10 +54,10 @@ public final class PathConstants {
     public static final String MASS_PROCESS_MSG_PATH = "/v1/message/process/send/mass";
     public static final String COMPLETE_PROCESS_MSG_PATH = "/v1/message/process/complete";
 
-    public static final String SINGLE_NEWS_MSG_PATH = "/v1/message/news/send/single";
-    public static final String MASS_NEWS_MSG_PATH = "/v1/message/news/send/mass";
-    public static final String SERVICE_NEWS_MSG_PATH = "/v1/message/news/send/service";
-    public static final String CHANNEL_NEWS_MSG_PATH = "/v1/message/news/send/channel";
+    public static final String SINGLE_NEWS_MSG_PATH = "/v2/message/news/send/single";
+    public static final String MASS_NEWS_MSG_PATH = "/v2/message/news/send/mass";
+    public static final String SERVICE_NEWS_MSG_PATH = "/v2/message/news/send/service";
+    public static final String CHANNEL_NEWS_MSG_PATH = "/v2/message/news/send/channel";
 
     public static final String GET_DOMAIN_ID_PATH = "/team/domain/id/get";
 

@@ -8,12 +8,14 @@ import com.cisdi.nudgeplus.sdk.utils.TransformUtils;
 import com.cisdi.nudgeplus.tmsbeans.beans.MessageResult;
 import com.cisdi.nudgeplus.tmsbeans.beans.ResultWrapper;
 import com.cisdi.nudgeplus.tmsbeans.constants.MsgType;
+import com.cisdi.nudgeplus.tmsbeans.model.CardMessage;
 import com.cisdi.nudgeplus.tmsbeans.model.ImageMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.NewsMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.RichMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.ServiceMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.TextMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.basics.ServiceSendRequest;
+import com.cisdi.nudgeplus.tmsbeans.model.request.basics.SingleSendRequest;
 import com.cisdi.nudgeplus.tmsbeans.model.request.media.MediaMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.news.NewsMsgArticle;
 import com.cisdi.nudgeplus.tmsbeans.model.request.news.NewsMsgParam;
@@ -34,12 +36,9 @@ public class ServiceMessageService {
         if (textMsg == null) {
             throw new IllegalMessageException();
         }
-
-        ServiceMsg msg = new ServiceMsg();
-        msg.setMsgtype(MsgType.TEXT);
-        msg.setText(textMsg);
-
-        String path = PathConstants.SERVICE_MESSAGE_PATH;
+        ServiceSendRequest<TextMsg> msg = new ServiceSendRequest<>();
+        msg.setMessage(textMsg);
+        String path = PathConstants.SERVICE_TEXT_MSG_PATH;
 
         ResultWrapper<MessageResult> resultWrapper = ClientUtils.post(path, TokenService.getToken(),
             JsonUtils.beanToSnakeJson(msg), MessageResult.class);
@@ -57,17 +56,14 @@ public class ServiceMessageService {
         if (imageMsg == null) {
             throw new IllegalMessageException();
         }
-
-        ServiceMsg msg = new ServiceMsg();
-        msg.setMsgtype(MsgType.IMAGE);
-        msg.setImage(imageMsg);
-
-        String path = PathConstants.SERVICE_MESSAGE_PATH;
+        ServiceSendRequest<ImageMsg> msg = new ServiceSendRequest<>();
+        msg.setMessage(imageMsg);
+        String path = PathConstants.SERVICE_IMAGE_MSG_PATH;
 
         ResultWrapper<MessageResult> resultWrapper = ClientUtils.post(path, TokenService.getToken(),
             JsonUtils.beanToSnakeJson(msg), MessageResult.class);
 
-        return resultWrapper.getResult().getMsgId();
+        return (String) resultWrapper.getResult().getData();
     }
 
     /**
@@ -80,17 +76,14 @@ public class ServiceMessageService {
         if (richMsg == null) {
             throw new IllegalMessageException();
         }
-
-        ServiceMsg msg = new ServiceMsg();
-        msg.setMsgtype(MsgType.RICH_MSG);
-        msg.setRichMsg(richMsg);
-
-        String path = PathConstants.SERVICE_MESSAGE_PATH;
+        ServiceSendRequest<RichMsg> msg = new ServiceSendRequest<>();
+        msg.setMessage(richMsg);
+        String path = PathConstants.SERVICE_RICH_MSG_PATH;
 
         ResultWrapper<MessageResult> resultWrapper = ClientUtils.post(path, TokenService.getToken(),
             JsonUtils.beanToSnakeJson(msg), MessageResult.class);
 
-        return resultWrapper.getResult().getMsgId();
+        return (String) resultWrapper.getResult().getData();
     }
 
     /**
@@ -133,6 +126,29 @@ public class ServiceMessageService {
         msg.setMessage(mediaMsg);
 
         String path = PathConstants.SERVICE_FILE_MSG_PATH;
+
+        ResultWrapper<MessageResult> resultWrapper = ClientUtils.post(
+            path, TokenService.getToken(),
+            JsonUtils.beanToSnakeJson(msg), MessageResult.class);
+
+        return resultWrapper.getResult().getData().toString();
+    }
+
+    /**
+     * 发布自定义卡片消息
+     *
+     * @param cardMessage 卡片消息
+     * @return 消息id
+     */
+    public static String sendCardMsg(CardMessage cardMessage) {
+        if (cardMessage == null) {
+            throw new IllegalMessageException();
+        }
+
+        ServiceSendRequest<CardMessage> msg = new ServiceSendRequest<>();
+        msg.setMessage(cardMessage);
+
+        String path = PathConstants.SERVICE_CARD_MSG_PATH;
 
         ResultWrapper<MessageResult> resultWrapper = ClientUtils.post(
             path, TokenService.getToken(),

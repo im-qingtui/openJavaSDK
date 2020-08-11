@@ -8,12 +8,14 @@ import com.cisdi.nudgeplus.sdk.utils.TransformUtils;
 import com.cisdi.nudgeplus.tmsbeans.beans.MessageResult;
 import com.cisdi.nudgeplus.tmsbeans.beans.ResultWrapper;
 import com.cisdi.nudgeplus.tmsbeans.constants.MsgType;
+import com.cisdi.nudgeplus.tmsbeans.model.CardMessage;
 import com.cisdi.nudgeplus.tmsbeans.model.ImageMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.MassMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.NewsMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.RichMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.TextMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.basics.MassSendRequest;
+import com.cisdi.nudgeplus.tmsbeans.model.request.basics.SingleSendRequest;
 import com.cisdi.nudgeplus.tmsbeans.model.request.keyvalue.KeyValueMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.media.MediaMsg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.news.NewsMsgArticle;
@@ -41,13 +43,11 @@ public final class MassMessageService {
         if (textMsg == null) {
             throw new IllegalMessageException();
         }
-
-        MassMsg msg = new MassMsg();
+        MassSendRequest<TextMsg> msg = new MassSendRequest<>();
+        msg.setMessage(textMsg);
         msg.setToUsers(userList);
-        msg.setMsgtype(MsgType.TEXT);
-        msg.setText(textMsg);
 
-        String path = PathConstants.MASS_MESSAGE_PATH;
+        String path = PathConstants.MASS_TEXT_MSG_PATH;
 
         ResultWrapper<MessageResult> resultWrapper = ClientUtils.post(
             path, TokenService.getToken(), JsonUtils.beanToJson(msg), MessageResult.class);
@@ -66,17 +66,16 @@ public final class MassMessageService {
         if (imageMsg == null) {
             throw new IllegalMessageException();
         }
-        MassMsg msg = new MassMsg();
+        MassSendRequest<ImageMsg> msg = new MassSendRequest<>();
+        msg.setMessage(imageMsg);
         msg.setToUsers(userList);
-        msg.setMsgtype(MsgType.IMAGE);
-        msg.setImage(imageMsg);
 
-        String path = PathConstants.MASS_MESSAGE_PATH;
+        String path = PathConstants.MASS_IMAGE_MSG_PATH;
 
         ResultWrapper<MessageResult> resultWrapper = ClientUtils.post(
-            path, TokenService.getToken(), JsonUtils.beanToJson(msg), MessageResult.class);
+            path, TokenService.getToken(), JsonUtils.beanToSnakeJson(msg), MessageResult.class);
 
-        return resultWrapper.getResult().getMsgId();
+        return (String) resultWrapper.getResult().getData();
     }
 
     /**
@@ -90,18 +89,16 @@ public final class MassMessageService {
         if (richMsg == null) {
             throw new IllegalMessageException();
         }
-
-        MassMsg msg = new MassMsg();
+        MassSendRequest<RichMsg> msg = new MassSendRequest<>();
+        msg.setMessage(richMsg);
         msg.setToUsers(userList);
-        msg.setMsgtype(MsgType.RICH_MSG);
-        msg.setRichMsg(richMsg);
 
-        String path = PathConstants.MASS_MESSAGE_PATH;
+        String path = PathConstants.MASS_RICH_MSG_PATH;
 
         ResultWrapper<MessageResult> resultWrapper = ClientUtils.post(
-            path, TokenService.getToken(), JsonUtils.beanToJson(msg), MessageResult.class);
+            path, TokenService.getToken(), JsonUtils.beanToSnakeJson(msg), MessageResult.class);
 
-        return resultWrapper.getResult().getMsgId();
+        return (String) resultWrapper.getResult().getData();
     }
 
     /**
@@ -231,6 +228,31 @@ public final class MassMessageService {
         }
 
         return response;
+    }
+
+    /**
+     * 发布自定义卡片消息
+     *
+     * @param userList 用户openid列表
+     * @param cardMessage 卡片消息
+     * @return 消息id
+     */
+    public static String sendCardMsg(List<String> userList, CardMessage cardMessage) {
+        if (cardMessage == null) {
+            throw new IllegalMessageException();
+        }
+
+        MassSendRequest<CardMessage> msg = new MassSendRequest<>();
+        msg.setToUsers(userList);
+        msg.setMessage(cardMessage);
+
+        String path = PathConstants.MASS_CARD_MSG_PATH;
+
+        ResultWrapper<MessageResult> resultWrapper = ClientUtils.post(
+            path, TokenService.getToken(),
+            JsonUtils.beanToSnakeJson(msg), MessageResult.class);
+
+        return resultWrapper.getResult().getData().toString();
     }
 
     private MassMessageService() {
