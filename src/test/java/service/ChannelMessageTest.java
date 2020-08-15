@@ -34,7 +34,7 @@ public class ChannelMessageTest {
 
     private String openid = NudgePlusConfig.getProperty("openid");
 
-    private String channelId = "39ee5261e9594eafa5efb9532a32e795";
+    private String channelId = "96debb3e31c24bfe85dd5e44c1b42208";
 
     @Test
     public void sendSingleTextMsg() {
@@ -63,7 +63,7 @@ public class ChannelMessageTest {
         // TODO 上传图片,发送图片URL
         if (id != null) {
             img.setMediaId(id);
-            String str = SingleMessageService.sendImageMsg(openid, img);
+            String str = ChannelMessageService.sendImageMsg(channelId, img);
             System.out.println(str);
         }
     }

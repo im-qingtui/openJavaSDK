@@ -71,7 +71,7 @@ public final class ChannelMessageService {
         ResultWrapper<MessageResult> resultWrapper = ClientUtils.post(
             path, TokenService.getToken(), JsonUtils.beanToSnakeJson(msg), MessageResult.class);
 
-        return resultWrapper.getResult().getMsgId();
+        return (String) resultWrapper.getResult().getData();
     }
 
     /**

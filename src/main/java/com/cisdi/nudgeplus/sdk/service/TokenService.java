@@ -40,6 +40,10 @@ public final class TokenService {
         return accessToken;
     }
 
+    /**
+     * 从accessToken中获取domainId
+     * @return domainId
+     */
     public static String getDomainIdByToken() {
         if (System.currentTimeMillis() > accessTokenExpiration || null == payload) {
             refreshToken();
