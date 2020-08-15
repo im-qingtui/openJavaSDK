@@ -28,15 +28,23 @@ public final class TokenService {
     private static final long TOKEN_REFRESH_LIMIT = 300000L;
 
     /**
-     * 根据 appId 和 secret 获取 5分钟内可用的 access token
+     * 根据 NudgePlusConfig 中保存的 appId 和 secret 获取 5分钟内可用的 accessToken
      *
      * @return token
      */
     public static String getToken() {
-        if (System.currentTimeMillis() > accessTokenExpiration || StringUtils.isEmpty(accessToken)) {
-            refreshToken();
-        }
+        return getToken(NudgePlusConfig.getAppId(),NudgePlusConfig.getAppSecret());
+    }
 
+    /**
+     * 根据 appId 和 secret 获取 5分钟内可用的 accessToken
+     *
+     * @return token
+     */
+    public static String getToken(String appId,String appSecret) {
+        if (System.currentTimeMillis() > accessTokenExpiration || StringUtils.isEmpty(accessToken)) {
+            refreshToken(appId, appSecret);
+        }
         return accessToken;
     }
 
@@ -65,10 +73,14 @@ public final class TokenService {
     /**
      * 根据 NudgePlusConfig 中保存的 appId 和 secret 刷新token
      */
-    private static synchronized void refreshToken() {
-        String appId = NudgePlusConfig.getAppId();
-        String appSecret = NudgePlusConfig.getAppSecret();
+    private static void refreshToken() {
+        refreshToken(NudgePlusConfig.getAppId(),NudgePlusConfig.getAppSecret());
+    }
 
+    /**
+     * 根据appId 和 secret 刷新token
+     */
+    private static synchronized void refreshToken(String appId,String appSecret) {
         Map<String, String> queryParams = new HashMap<>();
 
         queryParams.put("grant_type", "client_credential");
