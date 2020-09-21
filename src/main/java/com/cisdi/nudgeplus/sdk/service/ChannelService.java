@@ -1,5 +1,7 @@
 package com.cisdi.nudgeplus.sdk.service;
 
+import static com.cisdi.nudgeplus.sdk.service.TokenService.getToken;
+
 import com.cisdi.nudgeplus.sdk.constants.PathConstants;
 import com.cisdi.nudgeplus.sdk.datamng.ClientUtils;
 import com.cisdi.nudgeplus.sdk.exception.IllegalRequestException;
@@ -21,8 +23,17 @@ public final class ChannelService {
      * 通过appid查询机器人所在群
      */
     public static ChannelResult getChannelList() {
+        return getChannelList(getToken());
+    }
+
+    /**
+     * 通过appid查询机器人所在群
+     *
+     * @param accessToken 应用凭证
+     */
+    public static ChannelResult getChannelList(String accessToken) {
         Map<String, String> map = new HashMap<>();
-        map.put("accessToken", TokenService.getToken());
+        map.put("accessToken", accessToken);
         map.put("appId", NudgePlusConfig.getAppId());
 
         String path = PathConstants.GET_CHANNEL_LIST_PATH;
@@ -36,12 +47,21 @@ public final class ChannelService {
      * 根据群id查询群成员
      */
     public static ChannelMemberResult getChannelMemberList(String channelId) {
+        return getChannelMemberList(channelId, getToken());
+    }
+
+    /**
+     * 根据群id查询群成员
+     *
+     * @param accessToken 应用凭证
+     */
+    public static ChannelMemberResult getChannelMemberList(String channelId, String accessToken) {
         if (channelId == null) {
             throw new IllegalRequestException();
         }
 
         Map<String, String> map = new HashMap<>();
-        map.put("accessToken", TokenService.getToken());
+        map.put("accessToken", accessToken);
         map.put("channelId", channelId);
 
         String path = PathConstants.GET_CHANNEL_MEMBER_LIST_PATH;

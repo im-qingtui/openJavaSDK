@@ -3,7 +3,7 @@
   xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>im.qingtui.sdk</groupId>
-  <version>1.0.3.2</version>
+  <version>1.0.3.9</version>
   <artifactId>im-qingtui-op-sdk</artifactId>
   <name>im-qingtui-op-sdk</name>
   <description>qingtui sdk</description>
@@ -15,15 +15,27 @@
     <version>7</version>
   </parent>
 
+<!--  <distributionManagement>-->
+<!--    <snapshotRepository>-->
+<!--      <id>oss</id>-->
+<!--      <url>https://oss.sonatype.org/content/repositories/snapshots</url>-->
+<!--    </snapshotRepository>-->
+<!--    <repository>-->
+<!--      <id>oss</id>-->
+<!--      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>-->
+<!--    </repository>-->
+<!--  </distributionManagement>-->
+
   <distributionManagement>
-    <snapshotRepository>
-      <id>oss</id>
-      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-    </snapshotRepository>
     <repository>
-      <id>oss</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+      <id>releases</id>
+      <url>http://maven.dev.qingtui.im:8081/content/repositories/releases</url>
     </repository>
+
+    <snapshotRepository>
+      <id>snapshots</id>
+      <url>http://maven.dev.qingtui.im:8081/content/repositories/snapshots</url>
+    </snapshotRepository>
   </distributionManagement>
 
   <licenses>
@@ -72,6 +84,37 @@
             <phase>package</phase> <!-- 指定在打包节点执行jar包合并操作 -->
             <goals>
               <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>2.1</version>
+        <configuration>
+          <attach>true</attach>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>compile</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- Javadoc -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.9.1</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
             </goals>
           </execution>
         </executions>
@@ -144,7 +187,7 @@
     <dependency>
       <groupId>im.qingtui.message</groupId>
       <artifactId>card-message-core</artifactId>
-      <version>0.0.0.10</version>
+      <version>0.0.0.14</version>
     </dependency>
 
     <dependency>

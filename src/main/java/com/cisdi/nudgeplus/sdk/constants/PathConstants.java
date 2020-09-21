@@ -1,7 +1,5 @@
 package com.cisdi.nudgeplus.sdk.constants;
 
-import com.cisdi.nudgeplus.sdk.utils.NudgePlusConfig;
-
 public final class PathConstants {
 
     public static final String TOKEN = "/v1/token";
@@ -58,6 +56,10 @@ public final class PathConstants {
     public static final String MASS_NEWS_MSG_PATH = "/v2/message/news/send/mass";
     public static final String SERVICE_NEWS_MSG_PATH = "/v2/message/news/send/service";
     public static final String CHANNEL_NEWS_MSG_PATH = "/v2/message/news/send/channel";
+
+    public static final String SINGLE_TEMP_CARD_MSG_PATH = "/v1/message/temp/card/send/single";
+    public static final String CHANNEL_TEMP_CARD_MSG_PATH = "/v1/message/temp/card/send/channel";
+    public static final String CHANNEL_TEMP_CARD_ACCOUNT_MSG_PATH = "/v1/message/temp/card/send/channel/account";
 
     public static final String GET_DOMAIN_ID_PATH = "/team/domain/id/get";
 

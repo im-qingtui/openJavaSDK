@@ -6,8 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * 批量请求用户参数实体类
- * Date:2020/7/29
+ * 批量请求用户参数实体类 Date:2020/7/29
  *
  * @author GuanZhong
  */

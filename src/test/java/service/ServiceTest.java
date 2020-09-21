@@ -1,6 +1,5 @@
 package service;
 
-import com.cisdi.nudgeplus.sdk.service.MassMessageService;
 import com.cisdi.nudgeplus.sdk.service.MediaService;
 import com.cisdi.nudgeplus.sdk.service.ServiceMessageService;
 import com.cisdi.nudgeplus.tmsbeans.constants.MsgType;
@@ -126,11 +125,8 @@ public class ServiceTest {
 
     @Test
     public void testCardMsg() {
-        CardMessage cardMessage = new CardMessage();
         Card card = TestKt.getTestCard();
-        cardMessage.setCard(card);
-        cardMessage.setContent(cardMessage.getContent());
-        String id = ServiceMessageService.sendCardMsg(cardMessage);
+        String id = ServiceMessageService.sendCardMsg(card);
         System.out.println(id);
     }
 

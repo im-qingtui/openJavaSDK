@@ -12,5 +12,5 @@ public class ErrorConstants {
     /**
      * token无效
      */
-    public static final ErrorResult TOKEN_ERROR = new ErrorResult(40001,"invalid token");
+    public static final ErrorResult TOKEN_ERROR = new ErrorResult(40001, "invalid token");
 }

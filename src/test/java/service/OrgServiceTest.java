@@ -1,7 +1,6 @@
 package service;
 
 import com.cisdi.nudgeplus.sdk.service.OrgService;
-import com.cisdi.nudgeplus.sdk.utils.NudgePlusConfig;
 import com.cisdi.nudgeplus.tmsbeans.model.request.org.RequestNewOrg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.org.RequestOrg;
 import com.cisdi.nudgeplus.tmsbeans.model.request.org.RequestOrgName;

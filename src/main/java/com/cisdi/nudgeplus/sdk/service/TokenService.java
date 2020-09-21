@@ -33,7 +33,7 @@ public final class TokenService {
      * @return token
      */
     public static String getToken() {
-        return getToken(NudgePlusConfig.getAppId(),NudgePlusConfig.getAppSecret());
+        return getToken(NudgePlusConfig.getAppId(), NudgePlusConfig.getAppSecret());
     }
 
     /**
@@ -41,7 +41,7 @@ public final class TokenService {
      *
      * @return token
      */
-    public static String getToken(String appId,String appSecret) {
+    public static String getToken(String appId, String appSecret) {
         if (System.currentTimeMillis() > accessTokenExpiration || StringUtils.isEmpty(accessToken)) {
             refreshToken(appId, appSecret);
         }
@@ -50,6 +50,7 @@ public final class TokenService {
 
     /**
      * 从accessToken中获取domainId
+     *
      * @return domainId
      */
     public static String getDomainIdByToken() {
@@ -63,6 +64,7 @@ public final class TokenService {
     @Data
     @NoArgsConstructor
     private static class TokenPayload {
+
         private String domainId;
         @SerializedName("appid")
         private String appId;
@@ -74,13 +76,13 @@ public final class TokenService {
      * 根据 NudgePlusConfig 中保存的 appId 和 secret 刷新token
      */
     private static void refreshToken() {
-        refreshToken(NudgePlusConfig.getAppId(),NudgePlusConfig.getAppSecret());
+        refreshToken(NudgePlusConfig.getAppId(), NudgePlusConfig.getAppSecret());
     }
 
     /**
      * 根据appId 和 secret 刷新token
      */
-    private static synchronized void refreshToken(String appId,String appSecret) {
+    private static synchronized void refreshToken(String appId, String appSecret) {
         Map<String, String> queryParams = new HashMap<>();
 
         queryParams.put("grant_type", "client_credential");

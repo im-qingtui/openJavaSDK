@@ -2,7 +2,6 @@ package service;
 
 import com.cisdi.nudgeplus.sdk.service.MassMessageService;
 import com.cisdi.nudgeplus.sdk.service.MediaService;
-import com.cisdi.nudgeplus.sdk.service.SingleMessageService;
 import com.cisdi.nudgeplus.sdk.utils.NudgePlusConfig;
 import com.cisdi.nudgeplus.tmsbeans.constants.MsgType;
 import com.cisdi.nudgeplus.tmsbeans.model.Article;
@@ -238,14 +237,11 @@ public class MassTest {
 
     @Test
     public void testCardMsg() {
-        CardMessage cardMessage = new CardMessage();
         Card card = TestKt.getTestCard();
-        cardMessage.setCard(card);
-        cardMessage.setContent(cardMessage.getContent());
         List<String> userList = new ArrayList<String>();
         userList.add("89be684aeae64b87b5ef865d4a56ded6");
         userList.add("83137222dd3c40d8b814a3babab1d648");
-        String id = MassMessageService.sendCardMsg(userList, cardMessage);
+        String id = MassMessageService.sendCardMsg(userList, card);
         System.out.println(id);
     }
 }

@@ -50,10 +50,10 @@ public final class ClientUtils {
     /**
      * 向指定地址发送http get请求
      *
-     * @param path 请求地址 子路径
+     * @param path   请求地址 子路径
      * @param params 参数map
-     * @param clazz 返回的对象类型
-     * @param <T> 返回的泛型
+     * @param clazz  返回的对象类型
+     * @param <T>    返回的泛型
      * @return 返回对象
      * @throws IllegalRequestException 非法返回
      */
@@ -101,9 +101,9 @@ public final class ClientUtils {
     /**
      * 发送post请求
      *
-     * @param path 请求路径
+     * @param path  请求路径
      * @param token 认证token
-     * @param json 请求参数
+     * @param json  请求参数
      * @param clazz 返回类型
      */
     public static <T extends BaseResult> ResultWrapper<T> post(String path, String token, String json, Class<T> clazz)
@@ -146,9 +146,9 @@ public final class ClientUtils {
     /**
      * 上传文件
      *
-     * @param path 请求路径
+     * @param path  请求路径
      * @param token 认证token
-     * @param type 发送的文件类型 ("image","file")
+     * @param type  发送的文件类型 ("image","file")
      */
     public static <T extends BaseResult> ResultWrapper<T> uploadMedia(String path, String token, String type, File media, Class<T> clazz)
         throws IllegalRequestException {
@@ -210,7 +210,7 @@ public final class ClientUtils {
     /**
      * 根据请求路径和请求参数，拼装后取得 请求的 URL 连接 对象
      *
-     * @param path 请求路径
+     * @param path   请求路径
      * @param params 请求参数
      */
     private static URL getUrl(String path, Map<String, String> params) throws MalformedURLException {

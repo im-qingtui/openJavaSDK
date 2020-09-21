@@ -1,5 +1,7 @@
 package com.cisdi.nudgeplus.sdk.service;
 
+import static com.cisdi.nudgeplus.sdk.service.TokenService.getToken;
+
 import com.cisdi.nudgeplus.sdk.constants.ErrorConstants;
 import com.cisdi.nudgeplus.sdk.constants.PathConstants;
 import com.cisdi.nudgeplus.sdk.datamng.ClientUtils;
@@ -35,12 +37,23 @@ public final class OrgService {
      * @return 返回请求下的组织机构信息
      */
     public static OrgTreeResultResult getOrganizationList(RequestOrg request) {
+        return getOrganizationList(request, getToken());
+    }
+
+    /**
+     * 根据domainId和orgId查找组织机构信息
+     *
+     * @param request     组织机构信息请求
+     * @param accessToken 应用凭证
+     * @return 返回请求下的组织机构信息
+     */
+    public static OrgTreeResultResult getOrganizationList(RequestOrg request, String accessToken) {
         if (request == null) {
             throw new IllegalRequestException();
         }
 
         Map<String, String> map = new HashMap<>();
-        map.put("accessToken", TokenService.getToken());
+        map.put("accessToken", accessToken);
         map.put("orgId", request.getOrgId());
 
         if (request.getDomainId() != null) {
@@ -60,12 +73,23 @@ public final class OrgService {
      * @return 返回请求下的分页组织机构信息
      */
     public static PagedOrgResult pagedOrganizationList(RequestPagedOrg request) {
+        return pagedOrganizationList(request, getToken());
+    }
+
+    /**
+     * 根据domainId和orgId分页查找组织机构信息
+     *
+     * @param request     组织机构信息分页请求
+     * @param accessToken 应用凭证
+     * @return 返回请求下的分页组织机构信息
+     */
+    public static PagedOrgResult pagedOrganizationList(RequestPagedOrg request, String accessToken) {
         if (request == null) {
             throw new IllegalRequestException();
         }
 
         Map<String, String> map = new HashMap<>();
-        map.put("accessToken", TokenService.getToken());
+        map.put("accessToken", accessToken);
         if (request.getDomainId() != null) {
             map.put("domainId", request.getDomainId());
         }
@@ -87,12 +111,23 @@ public final class OrgService {
      * @return 返回请求下的组织机构详细信息
      */
     public static OrgBaseResult getOrganizationDetail(RequestOrg request) {
+        return getOrganizationList(request, getToken());
+    }
+
+    /**
+     * 根据domainId和orgId查找组织机构行详细信息
+     *
+     * @param request     组织机构信息请求
+     * @param accessToken 应用凭证
+     * @return 返回请求下的组织机构详细信息
+     */
+    public static OrgBaseResult getOrganizationDetail(RequestOrg request, String accessToken) {
         if (request == null) {
             throw new IllegalRequestException();
         }
 
         Map<String, String> map = new HashMap<>();
-        map.put("accessToken", TokenService.getToken());
+        map.put("accessToken", accessToken);
         if (request.getDomainId() != null) {
             map.put("domainId", request.getDomainId());
         }
@@ -112,11 +147,22 @@ public final class OrgService {
      * @return 返回请求下的组织机构下的总人数
      */
     public static int sumUserOfOrganization(RequestOrg request) {
+        return sumUserOfOrganization(request, getToken());
+    }
+
+    /**
+     * 根据domainId和orgId查找组织机构下的总人数
+     *
+     * @param request     组织机构下的总人数请求
+     * @param accessToken 应用凭证
+     * @return 返回请求下的组织机构下的总人数
+     */
+    public static int sumUserOfOrganization(RequestOrg request, String accessToken) {
         if (request == null) {
             throw new IllegalRequestException();
         }
         Map<String, String> map = new HashMap<>();
-        map.put("accessToken", TokenService.getToken());
+        map.put("accessToken", accessToken);
         if (request.getDomainId() != null) {
             map.put("domainId", request.getDomainId());
         }
@@ -135,6 +181,16 @@ public final class OrgService {
      * @param request 删除组织机构的请求
      */
     public static void deleteTheUnderlyingOrg(RequestOrg request) {
+        deleteTheUnderlyingOrg(request, getToken());
+    }
+
+    /**
+     * 根据domainId和orgId删除组织机构 只能删除底层的组织机构
+     *
+     * @param request     删除组织机构的请求
+     * @param accessToken 应用凭证
+     */
+    public static void deleteTheUnderlyingOrg(RequestOrg request, String accessToken) {
         if (request == null) {
             throw new IllegalRequestException();
         }
@@ -149,7 +205,7 @@ public final class OrgService {
 
         String path = PathConstants.ORG_DELETE_PATH;
 
-        ClientUtils.post(path, TokenService.getToken(), JsonUtils.beanToJson(request), BaseResult.class);
+        ClientUtils.post(path, accessToken, JsonUtils.beanToJson(request), BaseResult.class);
     }
 
     /**
@@ -159,6 +215,17 @@ public final class OrgService {
      * @return 返回新建的组织机构id
      */
     public static String createNewOrg(RequestNewOrg request) {
+        return createNewOrg(request, getToken());
+    }
+
+    /**
+     * 根据新建的组织机构信息新建组织机构
+     *
+     * @param request     新建组织机构的请求
+     * @param accessToken 应用凭证
+     * @return 返回新建的组织机构id
+     */
+    public static String createNewOrg(RequestNewOrg request, String accessToken) {
         if (request == null) {
             throw new IllegalRequestException();
         }
@@ -174,7 +241,7 @@ public final class OrgService {
         String path = PathConstants.ORG_CREATE_PATH;
 
         ResultWrapper<NewOrgResult> resultWrapper = ClientUtils
-            .post(path, TokenService.getToken(), JsonUtils.beanToJson(request), NewOrgResult.class);
+            .post(path, accessToken, JsonUtils.beanToJson(request), NewOrgResult.class);
 
         return resultWrapper.getResult().getOrgId();
     }
@@ -185,6 +252,16 @@ public final class OrgService {
      * @param request 修改组织机构的请求
      */
     public static void updateOrg(RequestOrgName request) {
+        updateOrg(request, getToken());
+    }
+
+    /**
+     * 根据更新的组织机构信息修改组织机构
+     *
+     * @param request     修改组织机构的请求
+     * @param accessToken 应用凭证
+     */
+    public static void updateOrg(RequestOrgName request, String accessToken) {
         if (request == null) {
             throw new IllegalRequestException();
         }
@@ -199,7 +276,7 @@ public final class OrgService {
 
         String path = PathConstants.ORG_UPDATE_PATH;
 
-        ClientUtils.post(path, TokenService.getToken(), JsonUtils.beanToJson(request), BaseResult.class);
+        ClientUtils.post(path, accessToken, JsonUtils.beanToJson(request), BaseResult.class);
     }
 
     /**
@@ -209,11 +286,21 @@ public final class OrgService {
      * @return 返回同步请求下的组织机构id
      */
     public static OrgSyncListResult synOrgInfo(RequestOrgSycInfo request) {
+        return synOrgInfo(request, getToken());
+    }
+
+    /**
+     * 根据同步时间和domainid查看同步组织机构信息
+     *
+     * @param request 同步织机构的请求
+     * @return 返回同步请求下的组织机构id
+     */
+    public static OrgSyncListResult synOrgInfo(RequestOrgSycInfo request, String accessToken) {
         if (request == null) {
             throw new IllegalRequestException();
         }
         Map<String, String> map = new HashMap<>();
-        map.put("accessToken", TokenService.getToken());
+        map.put("accessToken", accessToken);
         if (request.getDomainId() != null) {
             map.put("domainId", request.getDomainId());
         }

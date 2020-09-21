@@ -1,5 +1,7 @@
 package com.cisdi.nudgeplus.sdk.service;
 
+import static com.cisdi.nudgeplus.sdk.service.TokenService.getToken;
+
 import com.cisdi.nudgeplus.sdk.constants.PathConstants;
 import com.cisdi.nudgeplus.sdk.datamng.ClientUtils;
 import com.cisdi.nudgeplus.sdk.exception.IllegalMessageException;
@@ -20,6 +22,16 @@ public final class MenuService {
      * @return 返回菜单id
      */
     public static String createMenu(Menu menu) {
+        return createMenu(menu, getToken());
+    }
+
+    /**
+     * 创建自定义菜单
+     *
+     * @param menu 自定义菜单消息体
+     * @return 返回菜单id
+     */
+    public static String createMenu(Menu menu, String accessToken) {
         if (menu == null) {
             throw new IllegalMessageException();
         }
@@ -27,7 +39,7 @@ public final class MenuService {
         String path = PathConstants.CREATE_MENU_PATH;
 
         ResultWrapper<MenuResult> resultWrapper = ClientUtils.post(
-            path, TokenService.getToken(),
+            path, accessToken,
             JsonUtils.beanToJson(menu), MenuResult.class);
 
         return resultWrapper.getResult().getMenuId();

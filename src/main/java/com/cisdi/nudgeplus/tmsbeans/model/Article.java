@@ -1,7 +1,6 @@
 package com.cisdi.nudgeplus.tmsbeans.model;
 
 import com.cisdi.nudgeplus.tmsbeans.beans.BaseBean;
-import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
