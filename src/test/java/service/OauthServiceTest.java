@@ -11,7 +11,7 @@ public class OauthServiceTest {
 
     @Test
     public void testUserInfo() {
-        UserInfoResult userInfoResult = OAuthService.getUserInfo("A7657C7857D2423E87C126A94CF2C9F3");
+        UserInfoResult userInfoResult = OAuthService.getUserInfo("D00941ECE7DD405BA4367ACF9404BF5F");
         System.out.println(userInfoResult);
     }
 

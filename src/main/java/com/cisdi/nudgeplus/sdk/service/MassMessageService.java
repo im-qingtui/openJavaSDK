@@ -62,7 +62,7 @@ public final class MassMessageService {
         String path = PathConstants.MASS_TEXT_MSG_PATH;
 
         ResultWrapper<MessageResult> resultWrapper = ClientUtils.post(
-            path, accessToken, JsonUtils.beanToJson(msg), MessageResult.class);
+            path, accessToken, JsonUtils.beanToSnakeJson(msg), MessageResult.class);
 
         return resultWrapper.getResult().getMsgId();
     }
@@ -170,7 +170,7 @@ public final class MassMessageService {
         String path = PathConstants.MASS_NEWS_MSG_PATH;
 
         ResultWrapper<MessageResult> resultWrapper = ClientUtils.post(
-            path, accessToken, JsonUtils.beanToJson(msg), MessageResult.class);
+            path, accessToken, JsonUtils.beanToSnakeJson(msg), MessageResult.class);
 
         return resultWrapper.getResult().getData().toString();
     }
@@ -204,7 +204,7 @@ public final class MassMessageService {
         String path = PathConstants.MASS_FILE_MSG_PATH;
 
         ResultWrapper<MessageResult> resultWrapper = ClientUtils.post(
-            path, accessToken, JsonUtils.beanToJson(msg), MessageResult.class);
+            path, accessToken, JsonUtils.beanToSnakeJson(msg), MessageResult.class);
 
         return resultWrapper.getResult().getData().toString();
     }
@@ -239,7 +239,7 @@ public final class MassMessageService {
         String path = PathConstants.MASS_TEXT_CARD_MSG_PATH;
 
         ResultWrapper<MessageResult> resultWrapper = ClientUtils.post(
-            path, accessToken, JsonUtils.beanToJson(msg), MessageResult.class);
+            path, accessToken, JsonUtils.beanToSnakeJson(msg), MessageResult.class);
 
         return resultWrapper.getResult().getData().toString();
     }
@@ -275,7 +275,7 @@ public final class MassMessageService {
         String path = PathConstants.MASS_KEY_VALUE_MSG_PATH;
 
         ResultWrapper<MessageResult> resultWrapper = ClientUtils.post(
-            path, accessToken, JsonUtils.beanToJson(msg), MessageResult.class);
+            path, accessToken, JsonUtils.beanToSnakeJson(msg), MessageResult.class);
 
         return resultWrapper.getResult().getData().toString();
     }
@@ -311,7 +311,7 @@ public final class MassMessageService {
         String path = PathConstants.MASS_PROCESS_MSG_PATH;
 
         ResultWrapper<MessageResult> resultWrapper = ClientUtils.post(
-            path, accessToken, JsonUtils.beanToJson(msg), MessageResult.class);
+            path, accessToken, JsonUtils.beanToSnakeJson(msg), MessageResult.class);
 
         List<ProcessMsgMassResponse> response = new ArrayList<>();
 

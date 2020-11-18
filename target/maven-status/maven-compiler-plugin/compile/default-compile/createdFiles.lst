@@ -1,0 +1,4 @@
+com/cisdi/nudgeplus/tmsbeans/beans/member/UserDetailList.class
+com/cisdi/nudgeplus/sdk/service/ChannelService.class
+com/cisdi/nudgeplus/tmsbeans/model/request/member/RequestUserBatch.class
+com/cisdi/nudgeplus/tmsbeans/beans/channel/ChannelResult.class

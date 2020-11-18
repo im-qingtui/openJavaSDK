@@ -15,17 +15,17 @@ public class UserInfoResult extends BaseResult {
 
     private String avatar;
 
-    private String unionId;
+    private String unionid;
 
-    private String domainId;
+    private String domainid;
 
-    private String userId;
+    private String userid;
 
     private int role;
 
-    private boolean domainManager;
+    private boolean isDomainManager;
 
-    private boolean appManager;
+    private boolean isAppManager;
 
     private String workId;
 
