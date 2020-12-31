@@ -24,6 +24,7 @@ import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestPagedUserInfo;
 import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestUpdateUser;
 import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestUser;
 import com.cisdi.nudgeplus.tmsbeans.model.request.member.RequestUserBatch;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -171,7 +172,7 @@ public final class MemberService {
         String path = PathConstants.BATCH_GET_USER_DETAIL_INFO_PATH;
 
         ResultWrapper<UserDetailList> resultWrapper = ClientUtils
-            .post(path, accessToken, JsonUtils.beanToSnakeJson(request), UserDetailList.class);
+                .post(path, accessToken, JsonUtils.beanToSnakeJson(request), UserDetailList.class);
 
         return resultWrapper.getResult();
     }
@@ -469,5 +470,35 @@ public final class MemberService {
     }
 
     private MemberService() {
+    }
+
+
+    /**
+     * 根据新用户信息单个创建新访客
+     *
+     * @param request 需要创建的新访客信息
+     */
+    public static void createNewGuest(RequestCreateUser request) {
+        createNewGuest(request, getToken());
+    }
+
+    /**
+     * 根据新用户信息单个创建新访客
+     *
+     * @param request 需要创建的新用户信息
+     */
+    public static void createNewGuest(RequestCreateUser request, String accessToken) {
+        if (request == null) {
+            throw new IllegalRequestException();
+        }
+        if (request.getDomainId() == null) {
+            try {
+                request.setDomainId(TokenService.getDomainIdByToken());
+            } catch (Exception e) {
+                throw new IllegalRequestException(ErrorConstants.TOKEN_ERROR);
+            }
+        }
+        String path = PathConstants.CREATE_GUEST_PATH;
+        ClientUtils.post(path, accessToken, JsonUtils.beanToSnakeJson(request), BaseResult.class);
     }
 }

@@ -76,6 +76,7 @@ public final class PathConstants {
     public static final String GET_MEMBER_OPEN_ID_PATH = "/team/member/openid/get";
     public static final String BATCH_CREATE_USERS_PATH = "/team/member/create/batch/json";
     public static final String CREATE_USER_PATH = "/team/member/create/single/json";
+    public static final String CREATE_GUEST_PATH = "/team/member/create/guest/single/json";
 
 
     public static final String GET_ORG_LIST_PATH = "/team/org/list";

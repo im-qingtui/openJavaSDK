@@ -138,7 +138,7 @@ public class MemberServiceTest {
     public void testCreateNewUsers() {
         RequestCreateUser request = new RequestCreateUser();
         request.setName("皮丘");
-        request.setMobile("13340217038");
+        request.setMobile("13340217039");
         request.setPassword("abc123");
         request.setDomainId("b9b3539c60064d5b9c6e39ac985d4369");
         request.setEmployeeId("122n2");
@@ -147,5 +147,20 @@ public class MemberServiceTest {
         orgIdList.add("617497eab11e4572914627254105e434");
         request.setOrgList(orgIdList);
         MemberService.createNewUser(request);
+    }
+
+    @Test
+    public void testCreateNewGuest() {
+        RequestCreateUser request = new RequestCreateUser();
+        request.setName("皮丘111");
+        request.setMobile("13340217039");
+        request.setPassword("abc123");
+        request.setDomainId("e872447f44864ce4b7ccf93ca8a91b6f");
+        request.setEmployeeId("122n2");
+//        List<String> orgIdList = new ArrayList<>();
+//        orgIdList.add("1738618810684c1d86b159f7d1d3e885");
+//        orgIdList.add("617497eab11e4572914627254105e434");
+//        request.setOrgList(orgIdList);
+        MemberService.createNewGuest(request);
     }
 }
